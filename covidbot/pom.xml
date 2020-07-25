@@ -110,6 +110,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<configuration>
+
+					<environmentVariables>
+						<GOOGLE_APPLICATION_CREDENTIALS>covid19test-isdbak-6683f347dce9.json</GOOGLE_APPLICATION_CREDENTIALS>>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -29,6 +29,8 @@ public class BotService implements IBotService {
 
 		} catch (Exception ex) {
 
+			ex.printStackTrace();
+
 			response.setCode(ResponseCode.FAILED.hashCode()); //FIXME get by Value after completing Enum implementation
 			response.setErrorMessage(ex.getMessage());
 		}
