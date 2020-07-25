@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CovidClient</string>
+
+
+    <string name="menu_item_chat">CHATTING</string>
+    <string name="menu_item_setting">SETTINGS</string>
+</resources>
