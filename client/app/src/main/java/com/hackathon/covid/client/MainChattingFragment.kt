@@ -1,6 +1,5 @@
 package com.hackathon.covid.client
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,9 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hackathon.covid.client.adapters.ChatRecyclerViewAdapter
 import com.hackathon.covid.client.databinding.ChattingFragmentBinding
 
-class ChattingFragment : Fragment() {
+class MainChattingFragment : Fragment() {
 
-    private lateinit var viewModel: ChattingViewModel
+
     private var chattingFragmentBinding : ChattingFragmentBinding? = null
     // this property only valid between onCreateView and onDestroyView
     private val binding get() = chattingFragmentBinding!!
@@ -40,16 +39,18 @@ class ChattingFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChattingViewModel::class.java)
 
     }
 
-    fun newInstance() : ChattingFragment{
-        return ChattingFragment()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         chattingFragmentBinding = null // release
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = MainChattingFragment()
+
     }
 }
