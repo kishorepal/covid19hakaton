@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,15 +14,15 @@ public class BotController {
 	private IBotService botService;
 	
     @RequestMapping(value = "/api/bot_response")
-	public Object getBotResponse(@Param("query") String query ) {
+	public @ResponseBody Object getBotResponse(@Param("query") String query ) {
 		
 		System.out.println("getBotResponse");
 		
-		botService.getBotResponse(query);
+		Response response = botService.getBotResponse(query);
 		
 		
 		
-		return "Test";
+		return response;
 		
 	}
 }
