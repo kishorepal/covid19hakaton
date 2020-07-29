@@ -1,5 +1,5 @@
 runtime: java11
-instance_class: B4_1G
+instance_class: B1
 service: covidbot
 manual_scaling:
   instances: 1
