@@ -3,6 +3,7 @@ package com.hackathon.covid.client.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hackathon.covid.client.data_model.ChatListDataModel
 import com.hackathon.covid.client.data_model.ChatbotQueryResponse
 import com.hackathon.covid.client.databinding.ChattingFragmentBinding
 import com.hackathon.covid.client.databinding.ItemChatIncomingBubbleBinding
@@ -12,7 +13,7 @@ class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
 
 
-    private var chatList = mutableListOf<ChatbotQueryResponse>()
+    private var chatList : List<ChatListDataModel> = mutableListOf()
 
     private val VIEW_TYPE_LEFT_TEXT = 0
     private val VIEW_TYPE_LEFT_BUTTON = 1
@@ -56,6 +57,10 @@ class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 holder.bind()
             }
         }
+    }
+
+    fun updateList(list : List<ChatListDataModel>) {
+        chatList = list
     }
 
     inner class LeftViewHolder(private val binding : ItemChatIncomingBubbleBinding) : RecyclerView.ViewHolder(binding.root) {
