@@ -148,7 +148,6 @@
 
         <Button
             android:padding="15dp"
-            android:layout_marginTop="500dp"
             android:id="@+id/btn_environment_enable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
