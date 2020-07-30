@@ -65,11 +65,11 @@ class MainEnvironmentFragment : Fragment() {
         val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
         val enable = "Enable"
         if (status != null && buttonStatus == enable) {
-            binding.appStatus.text = "True"
+            binding.appStatus.text = "False"
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
             // Display all data
-            binding.appStatus.text = "False"
+            binding.appStatus.text = "True"
             //todo : This text is just for test , will use viewModel after complete viewModel
             binding.humidity.text = "False"
             binding.infectedContacts.text = "False"
