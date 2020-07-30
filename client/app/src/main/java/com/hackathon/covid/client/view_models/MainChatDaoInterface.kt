@@ -7,6 +7,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.hackathon.covid.client.data_model.ChatListDataModel
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface MainChatDaoInterface {
@@ -16,5 +19,5 @@ interface MainChatDaoInterface {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item : ChatListDataModel)
+    fun insert(item : ChatListDataModel) : Completable
 }

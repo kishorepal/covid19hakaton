@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.hackathon.covid.client.data_model.ChatListDataModel
 
 @Database(entities = [ChatListDataModel::class], version = 1)
-abstract class MainChatDatabase : RoomDatabase(){
+public abstract class MainChatDatabase : RoomDatabase(){
 
     abstract fun mainChatDao() : MainChatDaoInterface
 

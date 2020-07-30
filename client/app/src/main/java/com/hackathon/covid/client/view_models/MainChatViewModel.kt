@@ -11,6 +11,7 @@ class MainChatViewModel(context: Context) : ViewModel(){
     private var repository : MainChatRepository
     var chatList : LiveData<List<ChatListDataModel>>
 
+
     init {
         val mainChatDao = MainChatDatabase.getDatabase(context).mainChatDao()
 
@@ -19,7 +20,16 @@ class MainChatViewModel(context: Context) : ViewModel(){
     }
 
 
-    fun sendMessage(message : String) = repository.requestQuery(message)
-    
+    fun sendMessage(message : String) {
+        repository.requestQuery(message)
+        repository.insertItem(
+            ChatListDataModel(
+            isBot = false,
+                message = "",
+                botResponse = message
+        ))
+
+    }
+
 
 }

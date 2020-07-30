@@ -8,10 +8,14 @@ import com.hackathon.covid.client.http_utils.ChatbotInterfaces
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
 
     private val TAG = javaClass.simpleName
+    private var chatList : MutableList<ChatListDataModel> = mutableListOf()
+    private val mutableChatList = MutableLiveData<List<ChatListDataModel>>()
 
 
     private val chatBotInterface by lazy { ChatbotInterfaces.create()  }
@@ -24,6 +28,14 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
                     Log.d(TAG, "[onNext] >> requestQuery result : ${it.res_code}")
                     // todo : insert this to db
 
+                    insertItem(ChatListDataModel(
+                        isBot = true,
+                        message = it.message.toString(),
+                        botResponse = it.botResponse.toString()
+                    ))
+
+
+
                 },
                 onComplete = {
                     Log.d(TAG, "[onComplete] >> requestQuery")
@@ -34,8 +46,26 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
             )
     }
 
+//    fun addList(item : ChatListDataModel) {
+//        chatList.add(item)
+//        mutableChatList.postValue(chatList)
+//    }
+
 
     fun getChatLog() : LiveData<List<ChatListDataModel>>{
         return mainChatDao.getAllChat()
+//       return mutableChatList
     }
+
+    fun insertItem(item : ChatListDataModel) {
+        mainChatDao.insert(item)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribeBy(
+                onComplete = {Log.d(TAG, "[insert] >> onComplete")},
+                onError = {Log.e(TAG, "[insert] >> onError")}
+            )
+
+    }
+
 }

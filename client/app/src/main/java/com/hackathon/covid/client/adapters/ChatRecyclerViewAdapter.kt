@@ -51,27 +51,34 @@ class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is LeftViewHolder -> {
-                holder.bind()
+                holder.bind(chatList[position])
             }
             is RightViewHolder -> {
-                holder.bind()
+                holder.bind(chatList[position])
             }
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (chatList[position].isBot)
+            VIEW_TYPE_LEFT_TEXT
+        else VIEW_TYPE_RIGHT_TEXT
     }
 
     fun updateList(list : List<ChatListDataModel>) {
         chatList = list
+        notifyDataSetChanged()
     }
 
     inner class LeftViewHolder(private val binding : ItemChatIncomingBubbleBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            // todo : to be written upon data type
+        fun bind(item : ChatListDataModel) {
+            binding.tvText.text = item.botResponse
         }
     }
 
     inner class RightViewHolder(private val binding : ItemChatOutgoingBubbleBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            // todo : to be written upon data type
+        fun bind(item: ChatListDataModel) {
+            binding.tvText.text = item.botResponse
         }
     }
 

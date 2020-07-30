@@ -44,12 +44,12 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.app_name)
         binding.bottomNavView.apply {
             setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-            selectedItemId = R.id.menu_item_chat
         }
     }
 
 
     private fun switchFragment(fragment : Fragment) {
+        Log.d(TAG, "[switchFragment] >> IN")
         supportFragmentManager.beginTransaction().replace(R.id.fcv_container, fragment).commit()
     }
 
@@ -58,27 +58,26 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "[mOnNavigationItemSelectedListener] >> itemId : ${item.title}")
         when (item.itemId) {
             R.id.menu_item_environment -> {
-//                binding.bottomNavView.selectedItemId = R.id.menu_item_environment
+                Log.d(TAG, "[mOnNavigationItemSelectedListener] >> menu_item_environment")
                 switchFragment(mainEnvironmentFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_item_chat -> {
-//                binding.bottomNavView.selectedItemId = R.id.menu_item_chat
+                Log.d(TAG, "[mOnNavigationItemSelectedListener] >> menu_item_chat")
                 switchFragment(mainChattingFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_item_health -> {
-//                binding.bottomNavView.selectedItemId = R.id.menu_item_health
+                Log.d(TAG, "[mOnNavigationItemSelectedListener] >> menu_item_health")
                 switchFragment(mainHealthFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_item_settings -> {
-//                binding.bottomNavView.selectedItemId = R.id.menu_item_settings
+                Log.d(TAG, "[mOnNavigationItemSelectedListener] >> menu_item_settings")
                 switchFragment(mainSettingFragment)
                 return@OnNavigationItemSelectedListener true
             }
             else -> {
-//                binding.bottomNavView.selectedItemId = R.id.menu_item_environment
                 switchFragment(mainEnvironmentFragment)
                 return@OnNavigationItemSelectedListener false
             }

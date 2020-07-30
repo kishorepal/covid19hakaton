@@ -45,17 +45,29 @@ class MainChattingFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = listAdapter
         }
+        binding.btnSend.setOnClickListener {
+            sendMessage(binding.etInput.text.toString())
+            binding.etInput.setText("")
+        }
     }
 
     private fun addObservers() {
         viewModel.chatList.observe(this, Observer {
             listAdapter.updateList(it)
-
+            if (it.isNotEmpty())
+                binding.rvChat.smoothScrollToPosition(it.lastIndex)
         })
     }
 
-    private fun sendMessage() {
-        viewModel.sendMessage()
+    override fun onResume() {
+        super.onResume()
+        // sendMessage("Corona") // test purpose
+    }
+
+    private fun sendMessage(message : String) {
+        if (message.isNotEmpty()) {
+            viewModel.sendMessage(message)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
