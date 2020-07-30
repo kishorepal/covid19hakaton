@@ -93,12 +93,11 @@ class MainEnvironmentFragment : Fragment() {
             if (buttonStatus == enable) {
                 binding.btnEnvironmentEnable.text = disable
                 status = disable
-                initView(status!!)
             } else {
                 binding.btnEnvironmentEnable.text = enable
                 status = enable
-                initView(status!!)
             }
+            initView(status!!)
         }
     }
 
