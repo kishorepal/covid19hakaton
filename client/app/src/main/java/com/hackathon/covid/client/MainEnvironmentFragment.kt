@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.hackathon.covid.client.databinding.FragmentMainEnvironmentBinding
-import kotlinx.android.synthetic.main.fragment_main_environment.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,13 +21,8 @@ class MainEnvironmentFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var environmentBinding: FragmentMainEnvironmentBinding? = null
-    private val binding get() = environmentBinding!!
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -38,45 +30,11 @@ class MainEnvironmentFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        environmentBinding = FragmentMainEnvironmentBinding.inflate(inflater, container, false)
-        enableButton()
-        initView()
-        return binding.root;
-    }
-
-
-    private fun initView() {
-        val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
-        val enable = "Enable"
-        if (buttonStatus == enable) {
-            binding.appStatus.text = "Stop"
-            Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
-        } else {
-            // Display all data
-            binding.appStatus.text = "Running"
-            binding.humidity.text = "Running"
-            binding.infectedContacts.text = "Running"
-            binding.riskFactor.text = "Running"
-            binding.roomTemp.text = "Running"
-            binding.shortDescription.text = "Running"
-        }
-    }
-
-    private fun enableButton() {
-        binding.btnEnvironmentEnable.setOnClickListener {
-            val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
-            val disable = "Disable"
-            val enable = "Enable"
-            if (buttonStatus == enable) {
-                binding.btnEnvironmentEnable.text = disable
-            } else {
-                binding.btnEnvironmentEnable.text = enable
-            }
-        }
+        return inflater.inflate(R.layout.fragment_main_environment, container, false)
     }
 
     companion object {
