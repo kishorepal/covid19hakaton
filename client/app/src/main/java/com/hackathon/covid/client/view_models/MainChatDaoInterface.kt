@@ -11,8 +11,8 @@ import com.hackathon.covid.client.data_model.ChatListDataModel
 @Dao
 interface MainChatDaoInterface {
 
-    @Query("SELECT * FROM chat_log_table")
-    fun getAllChat() : LiveData<List<ChatListDataModel>>
+//    @Query("SELECT * FROM chat_log_table")
+//    fun getAllChat() : LiveData<List<ChatListDataModel>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
