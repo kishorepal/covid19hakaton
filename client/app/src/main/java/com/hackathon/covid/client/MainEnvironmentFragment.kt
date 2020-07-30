@@ -44,7 +44,6 @@ class MainEnvironmentFragment : Fragment() {
         // Inflate the layout for this fragment
         environmentBinding = FragmentMainEnvironmentBinding.inflate(inflater, container, false)
         enableButton()
-        initView()
         return binding.root;
     }
 
@@ -54,6 +53,12 @@ class MainEnvironmentFragment : Fragment() {
         val enable = "Enable"
         if (buttonStatus == enable) {
             binding.appStatus.text = "Stop"
+            binding.humidity.text = "Stop"
+            binding.infectedContacts.text = "Stop"
+            binding.riskFactor.text = "Stop"
+            binding.roomTemp.text = "Stop"
+            binding.shortDescription.text = "Stop"
+
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
             // Display all data
@@ -63,6 +68,7 @@ class MainEnvironmentFragment : Fragment() {
             binding.riskFactor.text = "Running"
             binding.roomTemp.text = "Running"
             binding.shortDescription.text = "Running"
+            Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -73,8 +79,10 @@ class MainEnvironmentFragment : Fragment() {
             val enable = "Enable"
             if (buttonStatus == enable) {
                 binding.btnEnvironmentEnable.text = disable
+                initView()
             } else {
                 binding.btnEnvironmentEnable.text = enable
+                initView()
             }
         }
     }
