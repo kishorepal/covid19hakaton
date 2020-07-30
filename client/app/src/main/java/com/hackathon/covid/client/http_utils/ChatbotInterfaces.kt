@@ -1,5 +1,6 @@
 package com.hackathon.covid.client.http_utils
 
+import com.hackathon.covid.client.common.Const
 import com.hackathon.covid.client.data_model.ChatbotQueryResponse
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import io.reactivex.Observable
@@ -12,13 +13,12 @@ import retrofit2.http.Query
 interface ChatbotInterfaces {
 
     companion object {
-        val chatbot_base_url = ""
 
         fun create() : ChatbotInterfaces{
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(chatbot_base_url)
+                .baseUrl(Const.chatbotBaseUrl)
                 .build()
 
 
@@ -30,6 +30,6 @@ interface ChatbotInterfaces {
 
     // declare here for the api endpoints
 
-    @POST()
+    @POST("api/bot_response/")
     fun queryChatbot(@Query("query") query : String) : Observable<ChatbotQueryResponse>
 }

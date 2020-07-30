@@ -12,6 +12,8 @@ import io.reactivex.schedulers.Schedulers
 class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
 
     private val TAG = javaClass.simpleName
+    private var chatList : MutableList<ChatListDataModel> = mutableListOf()
+    private val mutableChatList = MutableLiveData<List<ChatListDataModel>>()
 
 
     private val chatBotInterface by lazy { ChatbotInterfaces.create()  }
@@ -24,6 +26,12 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
                     Log.d(TAG, "[onNext] >> requestQuery result : ${it.res_code}")
                     // todo : insert this to db
 
+                    addList(ChatListDataModel(
+                        it.res_code,
+                        true,
+                        it.message.orEmpty(),
+                        it.botResponse.orEmpty()
+                    ))
                 },
                 onComplete = {
                     Log.d(TAG, "[onComplete] >> requestQuery")
@@ -34,8 +42,18 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
             )
     }
 
+    fun addList(item : ChatListDataModel) {
+        chatList.add(item)
+        mutableChatList.postValue(chatList)
+    }
+
 
     fun getChatLog() : LiveData<List<ChatListDataModel>>{
-        return mainChatDao.getAllChat()
+//        return mainChatDao.getAllChat()
+       return mutableChatList
+    }
+
+    fun insertLog(query : String) {
+
     }
 }
