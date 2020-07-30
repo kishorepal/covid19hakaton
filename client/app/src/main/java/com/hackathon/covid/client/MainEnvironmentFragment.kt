@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import com.hackathon.covid.client.databinding.FragmentMainEnvironmentBinding
+import com.hackathon.covid.client.view_models.MainChatViewModel
+import com.hackathon.covid.client.view_models.MainEnvironmentViewModel
+import com.hackathon.covid.client.view_models.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_main_environment.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,11 +27,15 @@ class MainEnvironmentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private var status:String? = null
+    private var status: String? = null
 
     private var environmentBinding: FragmentMainEnvironmentBinding? = null
     private val binding get() = environmentBinding!!
+
+    private val viewModelFactory by lazy {ViewModelFactory(activity!!.applicationContext)}
+    private val viewModel : MainEnvironmentViewModel by lazy {
+        ViewModelProviders.of(this@MainEnvironmentFragment, viewModelFactory)[MainEnvironmentViewModel::class.java]
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,21 +65,16 @@ class MainEnvironmentFragment : Fragment() {
         val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
         val enable = "Enable"
         if (status != null && buttonStatus == enable) {
-            binding.appStatus.text = "Stop"
-            binding.humidity.text = "Stop"
-            binding.infectedContacts.text = "Stop"
-            binding.riskFactor.text = "Stop"
-            binding.roomTemp.text = "Stop"
-            binding.shortDescription.text = "Stop"
+            binding.appStatus.text = "True"
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
             // Display all data
-            binding.appStatus.text = "Running"
-            binding.humidity.text = "Running"
-            binding.infectedContacts.text = "Running"
-            binding.riskFactor.text = "Running"
-            binding.roomTemp.text = "Running"
-            binding.shortDescription.text = "Running"
+            binding.appStatus.text = "False"
+            binding.humidity.text = viewModel.getRoomHumidity()
+            binding.infectedContacts.text = viewModel.getInfectedContacts()
+            binding.riskFactor.text = viewModel.getRiskFactor()
+            binding.roomTemp.text = viewModel.getRoomTemp()
+            binding.shortDescription.text = viewModel.getShortDescription()
             Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
     }
