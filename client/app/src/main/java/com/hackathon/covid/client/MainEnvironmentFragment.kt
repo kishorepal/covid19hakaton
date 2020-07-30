@@ -66,16 +66,21 @@ class MainEnvironmentFragment : Fragment() {
         val enable = "Enable"
         if (status != null && buttonStatus == enable) {
             binding.appStatus.text = "False"
-            Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
-        } else {
-            // Display all data
-            binding.appStatus.text = "True"
-            //todo : This text is just for test , will use viewModel after complete viewModel
             binding.humidity.text = "False"
             binding.infectedContacts.text = "False"
             binding.riskFactor.text = "False"
             binding.roomTemp.text = "False"
             binding.shortDescription.text = "False"
+            Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
+        } else {
+            // Display all data
+            binding.appStatus.text = "True"
+            //todo : This text is just for test , will use viewModel after complete viewModel
+            binding.humidity.text = "True"
+            binding.infectedContacts.text = "True"
+            binding.riskFactor.text = "True"
+            binding.roomTemp.text = "True"
+            binding.shortDescription.text = "True"
             Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
     }
