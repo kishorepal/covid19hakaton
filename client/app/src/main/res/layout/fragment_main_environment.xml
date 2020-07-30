@@ -33,8 +33,8 @@
             <TextView
                 android:id="@+id/room_temp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="999" />
+                android:layout_height="match_parent" />
+
         </LinearLayout>
 
 
@@ -52,8 +52,8 @@
             <TextView
                 android:id="@+id/humidity"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="999" />
+                android:layout_height="match_parent" />
+
 
         </LinearLayout>
 
@@ -71,8 +71,7 @@
             <TextView
                 android:id="@+id/risk_factor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="999" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -99,8 +98,7 @@
             <TextView
                 android:id="@+id/app_status"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -119,8 +117,7 @@
             <TextView
                 android:id="@+id/infected_contacts"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -139,8 +136,7 @@
             <TextView
                 android:id="@+id/short_description"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="999" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
