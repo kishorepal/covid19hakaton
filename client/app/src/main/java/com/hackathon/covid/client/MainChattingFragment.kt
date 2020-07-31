@@ -65,7 +65,9 @@ class MainChattingFragment : Fragment() {
     }
 
     private fun sendMessage(message : String) {
-        viewModel.sendMessage(message)
+        if (message.isNotEmpty()) {
+            viewModel.sendMessage(message)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

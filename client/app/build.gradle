@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -74,6 +75,10 @@ dependencies {
 
     // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
+
+    // Firebase Products
+    implementation "com.google.firebase:firebase-analytics:$rootProject.firebaseAnalyticsVersion" // Firebase Analytics
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

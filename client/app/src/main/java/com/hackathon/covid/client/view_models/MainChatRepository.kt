@@ -8,6 +8,8 @@ import com.hackathon.covid.client.http_utils.ChatbotInterfaces
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
 
@@ -26,12 +28,14 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
                     Log.d(TAG, "[onNext] >> requestQuery result : ${it.res_code}")
                     // todo : insert this to db
 
-                    addList(ChatListDataModel(
-                        it.res_code,
-                        true,
-                        it.message.orEmpty(),
-                        it.botResponse.orEmpty()
+                    insertItem(ChatListDataModel(
+                        isBot = true,
+                        message = it.message.toString(),
+                        botResponse = it.botResponse.toString()
                     ))
+
+
+
                 },
                 onComplete = {
                     Log.d(TAG, "[onComplete] >> requestQuery")
@@ -42,18 +46,26 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
             )
     }
 
-    fun addList(item : ChatListDataModel) {
-        chatList.add(item)
-        mutableChatList.postValue(chatList)
-    }
+//    fun addList(item : ChatListDataModel) {
+//        chatList.add(item)
+//        mutableChatList.postValue(chatList)
+//    }
 
 
     fun getChatLog() : LiveData<List<ChatListDataModel>>{
-//        return mainChatDao.getAllChat()
-       return mutableChatList
+        return mainChatDao.getAllChat()
+//       return mutableChatList
     }
 
-    fun insertLog(query : String) {
+    fun insertItem(item : ChatListDataModel) {
+        mainChatDao.insert(item)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribeBy(
+                onComplete = {Log.d(TAG, "[insert] >> onComplete")},
+                onError = {Log.e(TAG, "[insert] >> onError")}
+            )
 
     }
+
 }
