@@ -32,8 +32,8 @@ class MainEnvironmentFragment : Fragment() {
     private var environmentBinding: FragmentMainEnvironmentBinding? = null
     private val binding get() = environmentBinding!!
 
-    private val viewModelFactory by lazy { ViewModelFactory(activity!!.applicationContext) }
-    private val viewModel: MainEnvironmentViewModel by lazy {
+    private val viewModelFactory by lazy {ViewModelFactory(activity!!.applicationContext)}
+    private val viewModel : MainEnvironmentViewModel by lazy {
         ViewModelProviders.of(this@MainEnvironmentFragment, viewModelFactory)[MainEnvironmentViewModel::class.java]
     }
 
@@ -64,31 +64,22 @@ class MainEnvironmentFragment : Fragment() {
         binding.btnEnvironmentEnable.text = status
         val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
         val enable = "Enable"
-
-        // Get all data
-        binding.appStatus.text = viewModel.getAppStatus(status).toString()
-        binding.humidity.text = viewModel.getRoomHumidity().toString()
-        binding.infectedContacts.text = viewModel.getInfectedContacts().toString()
-        binding.riskFactor.text = viewModel.getRiskFactor().toString()
-        binding.roomTemp.text = viewModel.getRoomTemp().toString()
-        binding.shortDescription.text = viewModel.getShortDescription().toString()
-
-        // Set visibility to display data
         if (status != null && buttonStatus == enable) {
-            binding.appStatus.text = "Stop"
-            binding.humidity.visibility = View.GONE
-            binding.infectedContacts.visibility = View.GONE
-            binding.riskFactor.visibility = View.GONE
-            binding.roomTemp.visibility = View.GONE
-            binding.shortDescription.visibility = View.GONE
+            binding.appStatus.text = "Disable"
+            binding.humidity.text = ""
+            binding.infectedContacts.text = ""
+            binding.riskFactor.text = ""
+            binding.roomTemp.text = ""
+            binding.shortDescription.text = ""
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
-            binding.appStatus.text = "Running"
-            binding.humidity.visibility = View.VISIBLE
-            binding.infectedContacts.visibility = View.VISIBLE
-            binding.riskFactor.visibility = View.VISIBLE
-            binding.roomTemp.visibility = View.VISIBLE
-            binding.shortDescription.visibility = View.VISIBLE
+            // Display all data
+            binding.appStatus.text = viewModel.getAppStatus(status).toString()
+            binding.humidity.text = viewModel.getRoomHumidity().toString()
+            binding.infectedContacts.text = viewModel.getInfectedContacts().toString()
+            binding.riskFactor.text = viewModel.getRiskFactor().toString()
+            binding.roomTemp.text = viewModel.getRoomTemp().toString()
+            binding.shortDescription.text = viewModel.getShortDescription().toString()
             Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
     }
