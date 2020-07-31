@@ -26,48 +26,40 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
             MainEnvironmentRepository()
 
     var roomTempLiveData = MutableLiveData<Int>()
-    private lateinit var humidityLiveData: MutableLiveData<Int>
-    private lateinit var riskFactorLiveData: MutableLiveData<String>
-    private lateinit var appStatusLiveData: MutableLiveData<String>
-    private lateinit var infectedContactsLiveData: MutableLiveData<Int>
-    private lateinit var shortDescriptionLiveData: MutableLiveData<String>
+    var humidityLiveData = MutableLiveData<Int>()
+    var riskFactorLiveData = MutableLiveData<String>()
+    var appStatusLiveData = MutableLiveData<String>()
+    var infectedContactsLiveData =  MutableLiveData<Int>()
+    var shortDescriptionLiveData =  MutableLiveData<String>()
 
     init {
 
         /// todo : remove this dummy data after demo
         roomTempLiveData.value = 32
-//        humidityLiveData.value = 26
-//        riskFactorLiveData.value = "LOW"
-//        appStatusLiveData.value = "Enable"
-//        infectedContactsLiveData.value = 0
-//        shortDescriptionLiveData.value = "SHORT DESCRIPTION"
+        humidityLiveData.value = 26
+        riskFactorLiveData.value = "LOW"
+        appStatusLiveData.value = "Enable"
+        infectedContactsLiveData.value = 0
+        shortDescriptionLiveData.value = "SHORT DESCRIPTION"
     }
 
 
     fun getRoomTemp() {
-        roomTempLiveData.postValue(32)
-
     }
 
     fun getRoomHumidity() {
-        humidityLiveData = MutableLiveData(26)
     }
 
     fun getRiskFactor() {
-        riskFactorLiveData = MutableLiveData("Low")
-
     }
 
     fun getAppStatus(status : String) {
-        appStatusLiveData = MutableLiveData(status)
     }
 
     fun getInfectedContacts() {
-        infectedContactsLiveData = MutableLiveData(0)
     }
 
     fun getShortDescription() {
-        shortDescriptionLiveData = MutableLiveData("SHORT DESCRIPTION")
     }
 
 

@@ -33,8 +33,8 @@ class MainEnvironmentFragment : Fragment() {
     private var environmentBinding: FragmentMainEnvironmentBinding? = null
     private val binding get() = environmentBinding!!
 
-    private val viewModelFactory by lazy {ViewModelFactory(activity!!.applicationContext)}
-    private val viewModel : MainEnvironmentViewModel by lazy {
+    private val viewModelFactory by lazy { ViewModelFactory(activity!!.applicationContext) }
+    private val viewModel: MainEnvironmentViewModel by lazy {
         ViewModelProviders.of(this@MainEnvironmentFragment, viewModelFactory)[MainEnvironmentViewModel::class.java]
     }
 
@@ -56,6 +56,7 @@ class MainEnvironmentFragment : Fragment() {
         environmentBinding = FragmentMainEnvironmentBinding.inflate(inflater, container, false)
         enableButton()
         status?.let { initView(it) }
+        updateButton()
         return binding.root;
     }
 
@@ -74,7 +75,6 @@ class MainEnvironmentFragment : Fragment() {
             binding.shortDescription.text = ""
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
-            // Display all data
             addObservers()
             Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
@@ -82,11 +82,29 @@ class MainEnvironmentFragment : Fragment() {
 
 
     private fun addObservers() {
-
         viewModel.roomTempLiveData.observe(this, Observer {
             binding.roomTemp.text = it.toString()
         })
 
+        viewModel.humidityLiveData.observe(this, Observer {
+            binding.humidity.text = it.toString()
+        })
+
+        viewModel.infectedContactsLiveData.observe(this, Observer {
+            binding.infectedContacts.text = it.toString()
+        })
+
+        viewModel.shortDescriptionLiveData.observe(this, Observer {
+            binding.shortDescription.text = it.toString()
+        })
+
+        viewModel.riskFactorLiveData.observe(this, Observer {
+            binding.riskFactor.text = it.toString()
+        })
+
+        viewModel.appStatusLiveData.observe(this, Observer {
+            binding.appStatus.text = it.toString()
+        })
     }
 
     private fun enableButton() {
@@ -105,6 +123,15 @@ class MainEnvironmentFragment : Fragment() {
         }
     }
 
+    private fun updateButton() {
+        binding.btnRefresh.setOnClickListener {
+            if (binding.btnEnvironmentEnable.text.toString() == "Disable") {
+                addObservers()
+            } else {
+                Toast.makeText(context, "Please click Enable button first ", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
