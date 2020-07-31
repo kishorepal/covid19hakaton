@@ -65,9 +65,9 @@ class MainEnvironmentFragment : Fragment() {
         this.status = status
         binding.btnEnvironmentEnable.text = status
         val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
-        val enable = "Enable"
+        val enable = getString(R.string.enable_status)
         if (status != null && buttonStatus == enable) {
-            binding.appStatus.text = "Disable"
+            binding.appStatus.text = getString(R.string.enable_status)
             binding.humidity.text = ""
             binding.infectedContacts.text = ""
             binding.riskFactor.text = ""
@@ -110,8 +110,8 @@ class MainEnvironmentFragment : Fragment() {
     private fun enableButton() {
         binding.btnEnvironmentEnable.setOnClickListener {
             val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
-            val disable = "Disable"
-            val enable = "Enable"
+            val disable = getString(R.string.disable_status)
+            val enable = getString(R.string.disable_status)
             if (buttonStatus == enable) {
                 binding.btnEnvironmentEnable.text = disable
                 status = disable
@@ -125,7 +125,7 @@ class MainEnvironmentFragment : Fragment() {
 
     private fun updateButton() {
         binding.btnRefresh.setOnClickListener {
-            if (binding.btnEnvironmentEnable.text.toString() == "Disable") {
+            if (binding.btnEnvironmentEnable.text.toString() == getString(R.string.disable_status)) {
                 addObservers()
             } else {
                 Toast.makeText(context, "Please click Enable button first ", Toast.LENGTH_SHORT).show()

@@ -10,148 +10,154 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/cat_room_temp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Room Temperature : " />
-
-            <TextView
-                android:id="@+id/room_temp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/cat_humidity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Humidity : " />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
 
-            <TextView
-                android:id="@+id/humidity"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/cat_room_temp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Room Temperature : " />
+
+                <TextView
+                    android:id="@+id/room_temp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cat_humidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Humidity : " />
+
+                <TextView
+                    android:id="@+id/humidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cat_risk_factor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Risk Factor : " />
+
+                <TextView
+                    android:id="@+id/risk_factor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <TextView
-                android:id="@+id/cat_risk_factor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Risk Factor : " />
-
-            <TextView
-                android:id="@+id/risk_factor"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp">
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="15dp">
 
-        <TextView
-            android:id="@+id/cat_app_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="App Status : " />
 
-            <TextView
-                android:id="@+id/app_status"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/cat_app_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Status : " />
+
+                <TextView
+                    android:id="@+id/app_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/cat_infected_contacts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Infected Contacts : " />
-
-            <TextView
-                android:id="@+id/infected_contacts"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/cat_infected_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Infected Contacts : " />
+
+                <TextView
+                    android:id="@+id/infected_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/cat_short_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Short Description : " />
-
-            <TextView
-                android:id="@+id/short_description"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cat_short_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Short Description : " />
+
+                <TextView
+                    android:id="@+id/short_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
         <Button
-            android:padding="15dp"
             android:id="@+id/btn_environment_enable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Enable" />
+            android:padding="15dp"
+            android:text="Enable"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Refresh"
+            android:textAllCaps="false" />
 
     </LinearLayout>
-
 
 
 </FrameLayout>
