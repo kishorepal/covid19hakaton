@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainEnvironmentViewModel(context : Context) : ViewModel() {
+class MainEnvironmentViewModel(context: Context) : ViewModel() {
 
     private val TAG = javaClass.simpleName
 
@@ -22,15 +22,15 @@ class MainEnvironmentViewModel(context : Context) : ViewModel() {
      * 6. Short Description : String
      */
 
-    private var repository : MainEnvironmentRepository =
-        MainEnvironmentRepository()
+    private var repository: MainEnvironmentRepository =
+            MainEnvironmentRepository()
 
-    private lateinit var roomTempLiveData : MutableLiveData<Int>
-    private lateinit var humidityLiveData : MutableLiveData<Int>
-    private lateinit var riskFactorLiveData : MutableLiveData<String>
-    private lateinit var appStatusLiveData : MutableLiveData<Boolean>
-    private lateinit var infectedContactsLiveData : MutableLiveData<Int>
-    private lateinit var shortDescriptionLiveData : MutableLiveData<String>
+    var roomTempLiveData = MutableLiveData<Int>()
+    var humidityLiveData = MutableLiveData<Int>()
+    var riskFactorLiveData = MutableLiveData<String>()
+    var appStatusLiveData = MutableLiveData<String>()
+    var infectedContactsLiveData =  MutableLiveData<Int>()
+    var shortDescriptionLiveData =  MutableLiveData<String>()
 
     init {
 
@@ -38,41 +38,35 @@ class MainEnvironmentViewModel(context : Context) : ViewModel() {
         roomTempLiveData.value = 32
         humidityLiveData.value = 26
         riskFactorLiveData.value = "LOW"
-        appStatusLiveData.value = true
+        appStatusLiveData.value = "Enable"
         infectedContactsLiveData.value = 0
         shortDescriptionLiveData.value = "SHORT DESCRIPTION"
     }
 
 
     fun getRoomTemp() {
-
     }
 
     fun getRoomHumidity() {
-
     }
 
     fun getRiskFactor() {
-
     }
 
     fun getAppStatus() {
-
     }
 
     fun getInfectedContacts() {
-
     }
 
     fun getShortDescription() {
-
     }
 
 
     /**
      * This function is only for the testing function.
      */
-    fun postDummyValue(roomTemp : Int, humidity : Int, riskFactor : String, appStatus : Boolean, infectedContacts : Int, shortDescription : String) {
+    fun postDummyValue(roomTemp: Int, humidity: Int, riskFactor: String, appStatus: String, infectedContacts: Int, shortDescription: String) {
         roomTempLiveData.value = roomTemp
         humidityLiveData.value = humidity
         riskFactorLiveData.value = riskFactor
