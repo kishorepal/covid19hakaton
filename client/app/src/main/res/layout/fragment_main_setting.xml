@@ -6,9 +6,71 @@
     tools:context=".MainSettingFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SETTING FRAGMENT" />
+
+
+    <LinearLayout style="@style/wrap_layout">
+        <LinearLayout style="@style/layout"
+            android:id="@+id/opt_corona_Map">
+
+                <TextView
+                    android:id="@+id/show_map"
+                    style="@style/text"
+                    android:text="Show Corona Map" />
+                <ImageView style="@style/img_arrow" />
+
+        </LinearLayout>
+
+
+        <View style="@style/bg_line" />
+
+        <LinearLayout style="@style/layout">
+
+            <TextView
+                android:id="@+id/set_check_point"
+                style="@style/text"
+                android:text="Set Check Point" />
+
+            <ImageView style="@style/img_arrow" />
+
+        </LinearLayout>
+
+        <View style="@style/bg_line" />
+
+        <LinearLayout style="@style/layout">
+
+            <TextView
+                style="@style/text"
+                android:text="Policy" />
+
+            <ImageView style="@style/img_arrow" />
+
+        </LinearLayout>
+
+        <View style="@style/bg_line" />
+
+        <LinearLayout style="@style/layout">
+
+            <TextView
+                style="@style/text"
+                android:text="Policy" />
+
+            <ImageView style="@style/img_arrow" />
+
+        </LinearLayout>
+
+        <View style="@style/bg_line" />
+
+        <LinearLayout style="@style/layout">
+
+            <TextView
+                style="@style/text"
+                android:text="Policy" />
+
+            <ImageView style="@style/img_arrow" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>

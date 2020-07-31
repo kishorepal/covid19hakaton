@@ -53,7 +53,7 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
     fun getRiskFactor() {
     }
 
-    fun getAppStatus(status : String) {
+    fun getAppStatus() {
     }
 
     fun getInfectedContacts() {
