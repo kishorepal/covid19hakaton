@@ -2,12 +2,14 @@ package com.hakaton.covid.bot;
 
 import com.google.api.gax.rpc.ApiException;
 import com.google.cloud.dialogflow.v2beta1.*;
+import com.google.cloud.dialogflow.v2beta1.Intent.Message;
 import com.google.common.collect.Maps;
 import com.hakaton.covid.common.Constants;
 import com.hakaton.covid.common.ResponseCode;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.UUID;
@@ -24,14 +26,24 @@ public class BotService implements IBotService {
 
 		try{
 			QueryResult queryResult = detectIntentTexts(query);
-			response.setCode(ResponseCode.SUCCESS.hashCode()); //FIXME get by Value after completing Enum implementation
+			response.setCode(ResponseCode.SUCCESS.getValue()); //FIXME get by Value after completing Enum implementation
             response.setBotResponse(queryResult.getFulfillmentText());
+            
+            //FIXME set the Alternative Query Result Also
+            
+        
+            
+            response.getBot_response().put(queryResult.getFulfillmentText(), queryResult.getIntentDetectionConfidence());
+            
+            response.getAction().add(queryResult.getAction());
+            
+            
 
 		} catch (Exception ex) {
 
 			ex.printStackTrace();
 
-			response.setCode(ResponseCode.FAILED.hashCode()); //FIXME get by Value after completing Enum implementation
+			response.setCode(ResponseCode.FAILED.getValue()); //FIXME get by Value after completing Enum implementation
 			response.setErrorMessage(ex.getMessage());
 		}
 		return response;
@@ -61,6 +73,8 @@ public class BotService implements IBotService {
 
 				// Display the query result
 				QueryResult queryResult = response.getQueryResult();
+				
+				
 
 				System.out.println("====================");
 				System.out.format("User Query: '%s'\n", queryResult.getQueryText());
@@ -69,6 +83,8 @@ public class BotService implements IBotService {
                             queryResult.getIntent().getDisplayName(), queryResult.getIntentDetectionConfidence());*/
 				System.out.format("Response: '%s'\n", queryResult.getFulfillmentText());
 
+				
+				
 				return  queryResult;
 
 
