@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.hackathon.covid.client.databinding.FragmentMainEnvironmentBinding
 import com.hackathon.covid.client.view_models.MainChatViewModel
@@ -74,14 +75,18 @@ class MainEnvironmentFragment : Fragment() {
             Toast.makeText(context, "Button Disabled", Toast.LENGTH_SHORT).show()
         } else {
             // Display all data
-            binding.appStatus.text = viewModel.getAppStatus(status).toString()
-            binding.humidity.text = viewModel.getRoomHumidity().toString()
-            binding.infectedContacts.text = viewModel.getInfectedContacts().toString()
-            binding.riskFactor.text = viewModel.getRiskFactor().toString()
-            binding.roomTemp.text = viewModel.getRoomTemp().toString()
-            binding.shortDescription.text = viewModel.getShortDescription().toString()
+            addObservers()
             Toast.makeText(context, "Button Enabled", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    private fun addObservers() {
+
+        viewModel.roomTempLiveData.observe(this, Observer {
+            binding.roomTemp.text = it.toString()
+        })
+
     }
 
     private fun enableButton() {

@@ -25,7 +25,7 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
     private var repository: MainEnvironmentRepository =
             MainEnvironmentRepository()
 
-    private lateinit var roomTempLiveData: MutableLiveData<Int>
+    var roomTempLiveData = MutableLiveData<Int>()
     private lateinit var humidityLiveData: MutableLiveData<Int>
     private lateinit var riskFactorLiveData: MutableLiveData<String>
     private lateinit var appStatusLiveData: MutableLiveData<String>
@@ -35,7 +35,7 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
     init {
 
         /// todo : remove this dummy data after demo
-//        roomTempLiveData.value = 32
+        roomTempLiveData.value = 32
 //        humidityLiveData.value = 26
 //        riskFactorLiveData.value = "LOW"
 //        appStatusLiveData.value = "Enable"
@@ -45,7 +45,7 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
 
 
     fun getRoomTemp() {
-        roomTempLiveData = MutableLiveData(32)
+        roomTempLiveData.postValue(32)
 
     }
 
