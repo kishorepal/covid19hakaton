@@ -29,6 +29,7 @@ ext {
     coroutines = '1.2.0'
     materialVersion = "1.0.0"
     firebaseAnalyticsVersion = "17.2.2"
+    firebaseCloudMessageVersion = "20.2.1"
 }
 
 task clean(type: Delete) {

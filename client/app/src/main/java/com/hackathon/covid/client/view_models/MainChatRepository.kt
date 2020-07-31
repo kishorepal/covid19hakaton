@@ -46,15 +46,10 @@ class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
             )
     }
 
-//    fun addList(item : ChatListDataModel) {
-//        chatList.add(item)
-//        mutableChatList.postValue(chatList)
-//    }
-
 
     fun getChatLog() : LiveData<List<ChatListDataModel>>{
         return mainChatDao.getAllChat()
-//       return mutableChatList
+
     }
 
     fun insertItem(item : ChatListDataModel) {

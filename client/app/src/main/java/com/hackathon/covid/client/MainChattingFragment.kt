@@ -52,6 +52,7 @@ class MainChattingFragment : Fragment() {
     }
 
     private fun addObservers() {
+
         viewModel.chatList.observe(this, Observer {
             listAdapter.updateList(it)
             if (it.isNotEmpty())
