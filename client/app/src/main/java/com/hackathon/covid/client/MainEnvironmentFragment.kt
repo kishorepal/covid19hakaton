@@ -111,7 +111,7 @@ class MainEnvironmentFragment : Fragment() {
         binding.btnEnvironmentEnable.setOnClickListener {
             val buttonStatus: String = binding.btnEnvironmentEnable.text.toString()
             val disable = getString(R.string.disable_status)
-            val enable = getString(R.string.disable_status)
+            val enable = getString(R.string.enable_status)
             if (buttonStatus == enable) {
                 binding.btnEnvironmentEnable.text = disable
                 status = disable
