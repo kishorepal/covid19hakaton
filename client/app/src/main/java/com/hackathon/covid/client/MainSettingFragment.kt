@@ -1,11 +1,14 @@
 package com.hackathon.covid.client
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.room.Transaction
 import com.hackathon.covid.client.databinding.FragmentMainSettingBinding
+import kotlinx.coroutines.Dispatchers.Main
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,12 +42,24 @@ class MainSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_setting, container, false)
+        settingBinding = FragmentMainSettingBinding.inflate(inflater, container, false)
+        coronaMapButton()
+        return binding.root
+    }
+
+    private fun Fragment.addChildFragment(fragment: Fragment, frameId: Int) {
+
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.replace(frameId, fragment).commit()
     }
 
     private fun coronaMapButton() {
         binding.optCoronaMap.setOnClickListener {
             // move to corona map page
+            activity?.let{
+                val intent = Intent (it, CoronaMapActivity::class.java)
+                it.startActivity(intent)
+            }
         }
 
     }
