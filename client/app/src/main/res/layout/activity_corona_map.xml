@@ -6,10 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".CoronaMapActivity">
 
-    <TextView
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="This is corona map activity"
-        android:textSize="50sp"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgMyLocation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/locate_button"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="109dp"
+            tools:layout_editor_absoluteY="479dp" />
+
+    </fragment>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
