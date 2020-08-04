@@ -79,6 +79,7 @@ dependencies {
     // Firebase Products
     implementation "com.google.firebase:firebase-analytics:$rootProject.firebaseAnalyticsVersion" // Firebase Analytics
     implementation "com.google.firebase:firebase-messaging:$rootProject.firebaseCloudMessageVersion" // Firebase Cloud Message
+    implementation "com.google.firebase:firebase-database-ktx:$rootProject.firebaseDatabaseVersion"
 
 
     testImplementation 'junit:junit:4.12'
