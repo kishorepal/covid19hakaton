@@ -44,14 +44,11 @@ class MainSettingFragment : Fragment() {
         // Inflate the layout for this fragment
         settingBinding = FragmentMainSettingBinding.inflate(inflater, container, false)
         coronaMapButton()
+        checkPointButton()
+        checkListButton()
         return binding.root
     }
 
-    private fun Fragment.addChildFragment(fragment: Fragment, frameId: Int) {
-
-        val transaction = childFragmentManager.beginTransaction()
-        transaction.replace(frameId, fragment).commit()
-    }
 
     private fun coronaMapButton() {
         binding.optCoronaMap.setOnClickListener {
@@ -61,7 +58,26 @@ class MainSettingFragment : Fragment() {
                 it.startActivity(intent)
             }
         }
+    }
 
+    private fun checkPointButton() {
+        binding.optCheckPoint.setOnClickListener {
+            // move to corona map page
+            activity?.let{
+                val intent = Intent (it, CheckPointActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
+    }
+
+    private fun checkListButton() {
+        binding.optCheckList.setOnClickListener {
+            // move to corona map page
+            activity?.let{
+                val intent = Intent (it, CheckListActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
     }
 
     companion object {
