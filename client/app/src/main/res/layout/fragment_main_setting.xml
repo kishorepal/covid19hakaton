@@ -45,7 +45,7 @@
 
             <TextView
                 style="@style/text"
-                android:text="Policy" />
+                android:text="Set Check List" />
 
             <ImageView style="@style/img_arrow" />
 

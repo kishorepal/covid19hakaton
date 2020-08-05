@@ -7,22 +7,29 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
-import com.google.android.gms.location.places.Place
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
-import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding.inflate
+import com.hackathon.covid.client.databinding.ActivityMainBinding
 import com.hackathon.covid.client.services.GeofenceBroadcastReceiver
+import kotlinx.android.synthetic.main.activity_corona_map.*
 
 
 private const val MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION = 100
@@ -30,7 +37,6 @@ private const val MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION = 101
 
 
 class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
-
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: MyLocationCallBack
@@ -59,11 +65,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val fab: FloatingActionButton = findViewById<FloatingActionButton>(R.id.addPoint)
-        fab.setOnClickListener(View.OnClickListener {
-
-        })
-
         checkPermission()
     }
 
@@ -81,21 +82,16 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
 
         // test remove marker and circle from map
         map.setOnMapClickListener {
+            slideDownAddressFragment()
             removeList = listOf("Clicked")
-
             for (item in removeList) {
                 removeMarkerAndCircle(item)
             }
         }
-
-        //        map.setOnMarkerClickListener {
-//            if (marker.isInfoWindowShown){
-//                marker.hideInfoWindow()
-//            }else{
-//                marker.showInfoWindow()
-//            }
-//            true
-//        }
+                map.setOnMarkerClickListener {
+                    slideUpAddressFragment()
+            true
+        }
 
         locationInit()
         addLocationListener()
@@ -115,8 +111,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val center: CameraUpdate = CameraUpdateFactory.newLatLng(marker.position)
-        map.animateCamera(center)
         return true
     }
 
@@ -282,10 +276,8 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     private fun locateButton() {
-        val imgMyLocation = findViewById<ImageView>(R.id.myPlace)
-        imgMyLocation.setOnClickListener {
-            addLocationListener()
-        }
+        var fab = findViewById<FloatingActionButton>(R.id.locateFab)
+        fab.setOnClickListener { addLocationListener() }
     }
 
     inner class MyLocationCallBack : LocationCallback() {
@@ -325,23 +317,38 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     private fun searchMap() {
-        (fragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as? PlaceAutocompleteFragment)?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place?) {
+        // todo : Google places api for search automation should cost money
+        Places.initialize(applicationContext, getString(R.string.google_places_api_key));
 
-                if (place != null) {
-                    map.run {
-                        addMarker(MarkerOptions().position(place.latLng).title(place.name as String?))
-                        map.moveCamera(CameraUpdateFactory.newLatLng(place.latLng))
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, 15.0f))
-                    }
-                }
-                TODO("Not yet implemented")
+        val autocompleteFragment = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
             }
 
-            override fun onError(place: Status?) {
-                Log.d("Error", "Failed")
+            override fun onError(status: Status) {
+//                if (status.statusCode != Status.RESULT_CANCELED.statusCode)
+//                    throw Exception("Autocomplete error occurred: $status")
             }
         })
+    }
+
+    private fun slideDownAddressFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_out_down, R.anim.slide_in_down)
+        transaction.addToBackStack(null)
+        transaction.replace(R.id.address_fragment, AddressFragment());
+        transaction.commit()
+    }
+
+    private fun slideUpAddressFragment() {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
+        transaction.addToBackStack(null)
+        transaction.replace(R.id.address_fragment, AddressFragment());
+        transaction.commit()
+
     }
 
 
