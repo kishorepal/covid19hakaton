@@ -59,7 +59,6 @@ class MainEnvironmentFragment : Fragment() {
         return binding.root;
     }
 
-
     private fun addObservers() {
 
         viewModel.environmentData.observe(this, Observer {
