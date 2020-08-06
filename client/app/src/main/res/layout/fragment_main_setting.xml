@@ -28,7 +28,8 @@
 
         <View style="@style/bg_line" />
 
-        <LinearLayout style="@style/layout">
+        <LinearLayout style="@style/layout"
+            android:id="@+id/opt_check_point">
 
             <TextView
                 android:id="@+id/set_check_point"
@@ -41,7 +42,8 @@
 
         <View style="@style/bg_line" />
 
-        <LinearLayout style="@style/layout">
+        <LinearLayout style="@style/layout"
+            android:id="@+id/opt_check_list">
 
             <TextView
                 style="@style/text"
