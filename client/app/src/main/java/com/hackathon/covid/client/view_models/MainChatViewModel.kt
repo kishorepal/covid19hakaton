@@ -8,21 +8,21 @@ import com.hackathon.covid.client.data_model.ChatListDataModel
 
 class MainChatViewModel(context: Context) : ViewModel(){
 
-    private var repository : MainRepository
+    private var chatRepository : MainChatRepository
     var chatList : LiveData<List<ChatListDataModel>>
 
 
     init {
-        val mainChatDao = MainChatDatabase.getDatabase(context).mainChatDao()
+        val mainChatDao = MainDatabase.getDatabase(context).mainChatDao()
 
-        repository = MainRepository(mainChatDao)
-        chatList = repository.getChatLog()
+        chatRepository = MainChatRepository(mainChatDao)
+        chatList = chatRepository.getChatLog()
     }
 
 
     fun sendMessage(message : String) {
-        repository.requestQuery(message)
-        repository.insertItem(
+        chatRepository.requestQuery(message)
+        chatRepository.insertItem(
             ChatListDataModel(
             isBot = false,
                 message = "",

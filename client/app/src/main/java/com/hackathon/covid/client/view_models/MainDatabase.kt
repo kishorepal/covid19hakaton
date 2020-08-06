@@ -4,21 +4,24 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.hackathon.covid.client.common.Const
+import com.hackathon.covid.client.common.DataTypeConverter
 import com.hackathon.covid.client.data_model.ChatListDataModel
 import com.hackathon.covid.client.data_model.EnvironmentModel
 
 @Database(entities = [ChatListDataModel::class, EnvironmentModel::class], version = 3)
-public abstract class MainChatDatabase : RoomDatabase(){
+@TypeConverters(DataTypeConverter::class)
+public abstract class MainDatabase : RoomDatabase(){
 
     abstract fun mainChatDao() : MainChatDaoInterface
     abstract fun mainEnvironmentDao() : MainEnvironmentDaoInterface
 
     companion object {
         @Volatile
-        private var instance : MainChatDatabase? = null
+        private var instance : MainDatabase? = null
 
-        fun getDatabase(context : Context) : MainChatDatabase {
+        fun getDatabase(context : Context) : MainDatabase {
             val tempInstance = instance
             if (tempInstance != null) {
                 return tempInstance
@@ -27,7 +30,7 @@ public abstract class MainChatDatabase : RoomDatabase(){
             synchronized(this) {
                 val mInstance = Room.databaseBuilder(
                     context.applicationContext,
-                    MainChatDatabase::class.java,
+                    MainDatabase::class.java,
                     Const.dbName // DB name ref : https://developer.android.com/reference/androidx/room/Room#databaseBuilder(android.content.Context,%20java.lang.Class%3CT%3E,%20java.lang.String)
                 ).build()
 
