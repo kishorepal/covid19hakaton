@@ -80,7 +80,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             onMapLongClick(it)
         }
 
-        // test remove marker and circle from map
+        // Remove marker and circle from map
         map.setOnMapClickListener {
             slideDownAddressFragment()
             removeList = listOf("Clicked")
