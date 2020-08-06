@@ -13,11 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".CheckListActivity"></activity>
+        <activity
+            android:name=".CheckPointActivity"
+            android:label="@string/title_activity_check_point"
+            android:theme="@style/AppTheme.NoActionBar" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBWxvTIaHk9WbnMxo_cjxNylWrh-D5WJHA" />
-        <activity android:name=".CoronaMapActivity"></activity>
+
+        <activity android:name=".CoronaMapActivity" />
 
         <receiver android:name=".services.GeofenceBroadcastReceiver" />
 
