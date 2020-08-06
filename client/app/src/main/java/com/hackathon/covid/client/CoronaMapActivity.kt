@@ -20,12 +20,14 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding
 import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding.inflate
 import com.hackathon.covid.client.databinding.ActivityMainBinding
 import com.hackathon.covid.client.services.GeofenceBroadcastReceiver
@@ -47,6 +49,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     private var markerMap = HashMap<String, Marker>()
     private var circleMap = HashMap<String, Circle>()
 
+//    private lateinit var binding : ActivityCoronaMapBinding
     private val geofencingClient: GeofencingClient by lazy {
         LocationServices.getGeofencingClient(this)
     }
@@ -61,6 +64,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_corona_map)
 
+//        binding = ActivityCoronaMapBinding()
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)

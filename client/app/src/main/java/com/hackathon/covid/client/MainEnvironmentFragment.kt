@@ -64,12 +64,15 @@ class MainEnvironmentFragment : Fragment() {
         viewModel.environmentData.observe(this, Observer {
             Log.d(TAG, "[addObservers] >> environmentData : $it")
             // todo : update the view with this value
-            binding.appStatus.text = getString(R.string.enable_status)
-            binding.humidity.text = UnitConversion.getHumidityWithUnit(it.humidity)
-            binding.infectedContacts.text = "${it.infectedContacts}"
-            binding.riskFactor.text = it.riskFactor
-            binding.roomTemp.text = UnitConversion.getTempWithUnit(isCelsius = true, temperature = it.roomTemp)
-            binding.shortDescription.text = it.shortDescription
+            if (it!= null) {
+                binding.appStatus.text = getString(R.string.enable_status)
+                binding.humidity.text = UnitConversion.getHumidityWithUnit(it.humidity)
+                binding.infectedContacts.text = "${it.infectedContacts}"
+                binding.riskFactor.text = it.riskFactor
+                binding.roomTemp.text =
+                    UnitConversion.getTempWithUnit(isCelsius = true, temperature = it.roomTemp)
+                binding.shortDescription.text = it.shortDescription
+            }
         })
 
         viewModel.environmentAllData.observe(this, Observer {
