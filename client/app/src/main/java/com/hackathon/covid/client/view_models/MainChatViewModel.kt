@@ -8,14 +8,14 @@ import com.hackathon.covid.client.data_model.ChatListDataModel
 
 class MainChatViewModel(context: Context) : ViewModel(){
 
-    private var repository : MainChatRepository
+    private var repository : MainRepository
     var chatList : LiveData<List<ChatListDataModel>>
 
 
     init {
         val mainChatDao = MainChatDatabase.getDatabase(context).mainChatDao()
 
-        repository = MainChatRepository(mainChatDao)
+        repository = MainRepository(mainChatDao)
         chatList = repository.getChatLog()
     }
 

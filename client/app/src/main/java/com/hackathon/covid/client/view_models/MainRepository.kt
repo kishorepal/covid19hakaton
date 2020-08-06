@@ -11,12 +11,9 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
+class MainRepository(private val mainChatDao : MainChatDaoInterface) {
 
     private val TAG = javaClass.simpleName
-    private var chatList : MutableList<ChatListDataModel> = mutableListOf()
-    private val mutableChatList = MutableLiveData<List<ChatListDataModel>>()
-
 
     private val chatBotInterface by lazy { ChatbotInterfaces.create()  }
     fun requestQuery(query : String) {

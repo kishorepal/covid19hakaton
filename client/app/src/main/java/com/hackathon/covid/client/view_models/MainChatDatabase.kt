@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.hackathon.covid.client.common.Const
 import com.hackathon.covid.client.data_model.ChatListDataModel
+import com.hackathon.covid.client.data_model.EnvironmentModel
 
-@Database(entities = [ChatListDataModel::class], version = 1)
+@Database(entities = [ChatListDataModel::class, EnvironmentModel::class], version = 3)
 public abstract class MainChatDatabase : RoomDatabase(){
 
     abstract fun mainChatDao() : MainChatDaoInterface
+    abstract fun mainEnvironmentDao() : MainEnvironmentDaoInterface
 
     companion object {
         @Volatile
@@ -25,7 +28,7 @@ public abstract class MainChatDatabase : RoomDatabase(){
                 val mInstance = Room.databaseBuilder(
                     context.applicationContext,
                     MainChatDatabase::class.java,
-                    "chat_log_table"
+                    Const.dbName // DB name ref : https://developer.android.com/reference/androidx/room/Room#databaseBuilder(android.content.Context,%20java.lang.Class%3CT%3E,%20java.lang.String)
                 ).build()
 
                 instance = mInstance
