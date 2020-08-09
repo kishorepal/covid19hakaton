@@ -31,8 +31,6 @@ class MainRepository(private val mainChatDao : MainChatDaoInterface) {
                         botResponse = it.botResponse.toString()
                     ))
 
-
-
                 },
                 onComplete = {
                     Log.d(TAG, "[onComplete] >> requestQuery")

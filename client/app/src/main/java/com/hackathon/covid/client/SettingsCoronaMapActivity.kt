@@ -7,49 +7,49 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.renderscript.ScriptGroup
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding
-import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding.inflate
-import com.hackathon.covid.client.databinding.ActivityMainBinding
 import com.hackathon.covid.client.services.GeofenceBroadcastReceiver
-import kotlinx.android.synthetic.main.activity_corona_map.*
 
 
 private const val MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION = 100
 private const val MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION = 101
 
-
 class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
+
+    private lateinit var binding: ActivityCoronaMapBinding
     private lateinit var map: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: MyLocationCallBack
     private lateinit var locationRequest: LocationRequest
-    private lateinit var removeList: List<String>
     private lateinit var marker: Marker
     private lateinit var circle: Circle
     private var markerMap = HashMap<String, Marker>()
     private var circleMap = HashMap<String, Circle>()
+    private var pointListMap = HashMap<String, LatLng>()
+    private var lastDestinationPoint = HashMap<String, LatLng>()
+    private var address = String()
+    private var clickedLocationName = String()
+    private var currentPositionName = String ()
+    private var currentPosition = 0
 
-//    private lateinit var binding : ActivityCoronaMapBinding
+
     private val geofencingClient: GeofencingClient by lazy {
         LocationServices.getGeofencingClient(this)
     }
@@ -59,26 +59,28 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_corona_map)
+        binding = ActivityCoronaMapBinding.inflate(LayoutInflater.from(this))
+        val view = binding.root
+        setContentView(view)
 
-//        binding = ActivityCoronaMapBinding()
         val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.fm_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         checkPermission()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        val list = checkPointList()
+        pointListMap = checkPointList()
         map = googleMap
 
-        for (item in list) {
+
+        for (item in pointListMap) {
             drawGeofence(item.key, item.value)
         }
+
 
         map.setOnMapLongClickListener {
             onMapLongClick(it)
@@ -86,32 +88,57 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
 
         // Remove marker and circle from map
         map.setOnMapClickListener {
-            slideDownAddressFragment()
-            removeList = listOf("Clicked")
-            for (item in removeList) {
-                removeMarkerAndCircle(item)
+            binding.llSetPoint.visibility = View.INVISIBLE
+            val newPoint = LatLng(String.format("%.4f",it.latitude).toDouble(), String.format("%.4f",it.longitude).toDouble())
+            if (!pointListMap.values.contains(newPoint) && !pointListMap.keys.contains(currentPositionName)) {
+                removeMarkerAndCircle(currentPositionName, "marker")
+                markerMap.remove(currentPositionName)
+                lastDestinationPoint.remove(currentPositionName)
             }
         }
-                map.setOnMarkerClickListener {
-                    slideUpAddressFragment()
+        map.setOnMarkerClickListener {
+            currentPositionName = it.title
+            val latitude = String.format("%.4f", it.position.latitude).toDouble()
+            val longitude = String.format("%.4f", it.position.longitude).toDouble()
+            lastDestinationPoint[clickedLocationName] = LatLng(latitude, longitude)
+            address = "$currentPositionName - >  $latitude / $longitude"
+            binding.address.text = address
+            binding.llSetPoint.visibility = View.VISIBLE
+            binding.tvTitle.text = currentPositionName
+            binding.tvLocationAddress.text = "$latitude / $longitude"
+            if (LatLng(latitude, longitude) != lastDestinationPoint[currentPositionName]) {
+                lastDestinationPoint.remove(currentPositionName)
+                lastDestinationPoint[currentPositionName] = LatLng(latitude, longitude)
+            }
+
             true
         }
 
         locationInit()
         addLocationListener()
-        addGeofences()
         locateButton()
         searchMap()
+        addGeofences(pointListMap)
+        makeCheckPointButton()
+
     }
 
     override fun onMapLongClick(point: LatLng) {
-        val titleName = "Clicked"
-        var markerOptions = MarkerOptions().position(point).title("Destination")
-        if (markerMap[titleName] != null) {
-            removeMarkerAndCircle(titleName)
-        }
+        currentPosition += 1
+        currentPositionName = "Destination $currentPosition"
+        val previousPosition = currentPosition -1
+        val previousPositionName = "Destination $previousPosition"
+        val newPoint = LatLng(String.format("%.4f",point.latitude).toDouble(), String.format("%.4f",point.longitude).toDouble())
+        lastDestinationPoint[currentPositionName] = newPoint
+        var markerOptions = MarkerOptions().position(newPoint).title(currentPositionName)
         marker = map.addMarker(markerOptions)
-        markerMap[titleName] = marker
+        markerMap[currentPositionName] = marker
+        if (!pointListMap.values.contains(newPoint) && currentPosition - 1 == previousPosition ) {
+            removeMarkerAndCircle(previousPositionName, "marker")
+            markerMap.remove(previousPositionName)
+            lastDestinationPoint.remove(previousPositionName)
+        }
+        binding.llSetPoint.visibility = View.INVISIBLE
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
@@ -143,14 +170,14 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     override fun onDestroy() {
-        geofencingClient?.removeGeofences(geofencePendingIntent)?.run {
-            addOnSuccessListener {
-                Toast.makeText(this@CoronaMapActivity, "remove geofence Success", Toast.LENGTH_SHORT).show()
-            }
-            addOnFailureListener {
-                Toast.makeText(this@CoronaMapActivity, "remove geofence Fail", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        geofencingClient?.removeGeofences(geofencePendingIntent)?.run {
+//            addOnSuccessListener {
+//                Toast.makeText(this@CoronaMapActivity, "remove geofence Success", Toast.LENGTH_SHORT).show()
+//            }
+//            addOnFailureListener {
+//                Toast.makeText(this@CoronaMapActivity, "remove geofence Fail", Toast.LENGTH_SHORT).show()
+//            }
+//        }
         super.onDestroy()
     }
 
@@ -166,13 +193,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         marker = map.addMarker(MarkerOptions().position(latLng).title(name))
         markerMap[name] = marker
         circleMap[name] = circle
-    }
-
-    // Get checkpoint
-    private fun getCheckPoint(): Pair<Double, Double> {
-        val latitude = 35.7839
-        val longitude = 139.6818
-        return Pair(latitude, longitude)
     }
 
     // Check permission for access device location
@@ -204,14 +224,13 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     // Get saved check point by viewModel(get user data from database)
-    private fun checkPointList(): Map<String, LatLng> {
+    private fun checkPointList(): HashMap<String, LatLng> {
         // Dummy data
-        return mapOf(("Home" to LatLng(35.7839, 139.6818)), ("Office" to LatLng(35.7851, 139.6890)))
+        return hashMapOf(("Home" to LatLng(35.7839, 139.6818)), ("Office" to LatLng(35.7851, 139.6890)))
     }
 
-    private fun getGeofenceList(): MutableList<Geofence> {
+    private fun getGeofenceList(list: HashMap<String, LatLng>): MutableList<Geofence> {
         val geofenceList = mutableListOf<Geofence>()
-        val list = checkPointList()
 
         for (point in list) {
             geofenceList.add(getGeofence(point.key, Pair(point.value.latitude, point.value.longitude)))
@@ -249,7 +268,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         }.build()
     }
 
-    private fun addGeofences() {
+    private fun addGeofences(map: HashMap<String, LatLng>) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -260,7 +279,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        geofencingClient.addGeofences(getGeofencingRequest(getGeofenceList()), geofencePendingIntent).run {
+        geofencingClient.addGeofences(getGeofencingRequest(getGeofenceList(map)), geofencePendingIntent).run {
             addOnSuccessListener {
                 Toast.makeText(this@CoronaMapActivity, "Add geofence success", Toast.LENGTH_LONG).show()
             }
@@ -274,13 +293,13 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         locationCallback = MyLocationCallBack()
         locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 1000
+        locationRequest.interval = 10000
         locationRequest.numUpdates = 1
         locationRequest.fastestInterval = 5000
     }
 
     private fun locateButton() {
-        var fab = findViewById<FloatingActionButton>(R.id.locateFab)
+        var fab = binding.locateFab
         fab.setOnClickListener { addLocationListener() }
     }
 
@@ -290,19 +309,32 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             val personMarker = resources.getDrawable(R.drawable.person_button, null)
             val location = locationResult?.lastLocation
             location?.run {
+
                 val latLng = LatLng(latitude, longitude)
                 // Move camera to user location
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                 // Add marker
-                map.addMarker(MarkerOptions().position(latLng).title("Your location"))
-                        .setIcon(BitmapDescriptorFactory.fromBitmap(personMarker.toBitmap(personMarker.intrinsicWidth, personMarker.intrinsicHeight, null)))
+                marker = map.addMarker(MarkerOptions().position(latLng).title("Your Location"))
+                marker.setIcon(BitmapDescriptorFactory.fromBitmap(personMarker.toBitmap(personMarker.intrinsicWidth, personMarker.intrinsicHeight, null)))
+                markerMap.put("Your Location", marker )
+                markerMap.remove("Your Location")
             }
         }
     }
 
-    private fun removeMarkerAndCircle(location: String) {
-        markerMap[location]?.remove()
-        circleMap[location]?.remove()
+    private fun removeMarkerAndCircle(location: String, type: String) {
+        when (type) {
+            "marker" -> {
+                markerMap[location]?.remove()
+            }
+            "circle" -> {
+                circleMap[location]?.remove()
+            }
+            "all" -> {
+                markerMap[location]?.remove()
+                circleMap[location]?.remove()
+            }
+        }
     }
 
     private fun addLocationListener() {
@@ -338,22 +370,23 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         })
     }
 
-    private fun slideDownAddressFragment() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_out_down, R.anim.slide_in_down)
-        transaction.addToBackStack(null)
-        transaction.replace(R.id.address_fragment, AddressFragment());
-        transaction.commit()
+    private fun makeCheckPointButton() {
+        binding.btnSetPoint.setOnClickListener {
+            val lastLocationLatLng = lastDestinationPoint[currentPositionName]
+            val pointList = pointListMap.values
+            val lastPointList = lastDestinationPoint.values
+            if (pointList.contains(lastLocationLatLng) && lastPointList.contains(lastLocationLatLng)) {
+                Toast.makeText(this, "This place is already mark as check point", Toast.LENGTH_SHORT).show()
+            } else {
+                addGeofences(lastDestinationPoint)
+                lastLocationLatLng?.let { it1 -> pointListMap.put(currentPositionName, it1) }
+                lastLocationLatLng?.let { it1 -> drawGeofence(currentPositionName, it1) }
+            }
+        }
     }
 
-    private fun slideUpAddressFragment() {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up)
-        transaction.addToBackStack(null)
-        transaction.replace(R.id.address_fragment, AddressFragment());
-        transaction.commit()
-
+    private fun insertCheckPoint () {
+        //Get data from ViewModel
     }
-
 
 }

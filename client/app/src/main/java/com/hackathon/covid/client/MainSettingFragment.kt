@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.room.Transaction
 import com.hackathon.covid.client.databinding.FragmentMainSettingBinding
-import kotlinx.coroutines.Dispatchers.Main
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,7 +62,7 @@ class MainSettingFragment : Fragment() {
         binding.optCheckPoint.setOnClickListener {
             // move to corona map page
             activity?.let{
-                val intent = Intent (it, CheckPointActivity::class.java)
+                val intent = Intent (it, SettingsCheckPointActivity::class.java)
                 it.startActivity(intent)
             }
         }
@@ -74,7 +72,7 @@ class MainSettingFragment : Fragment() {
         binding.optCheckList.setOnClickListener {
             // move to corona map page
             activity?.let{
-                val intent = Intent (it, CheckListActivity::class.java)
+                val intent = Intent (it, SettingsCheckListActivity::class.java)
                 it.startActivity(intent)
             }
         }
