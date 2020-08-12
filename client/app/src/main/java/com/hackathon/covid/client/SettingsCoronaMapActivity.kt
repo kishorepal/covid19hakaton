@@ -13,6 +13,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,6 +28,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.hackathon.covid.client.databinding.ActivityCoronaMapBinding
 import com.hackathon.covid.client.services.GeofenceBroadcastReceiver
+import com.hackathon.covid.client.view_models.CheckListViewModel
+import com.hackathon.covid.client.view_models.ViewModelFactory
 
 
 private const val MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION = 100
@@ -59,6 +63,11 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
+    private val viewModelFactory by lazy { ViewModelFactory(this) }
+    private val viewModel : CheckListViewModel by lazy {
+        ViewModelProviders.of(this@CoronaMapActivity, viewModelFactory)[CheckListViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoronaMapBinding.inflate(LayoutInflater.from(this))
@@ -76,11 +85,9 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         pointListMap = checkPointList()
         map = googleMap
 
-
         for (item in pointListMap) {
             drawGeofence(item.key, item.value)
         }
-
 
         map.setOnMapLongClickListener {
             onMapLongClick(it)
@@ -96,6 +103,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
                 lastDestinationPoint.remove(currentPositionName)
             }
         }
+
         map.setOnMarkerClickListener {
             currentPositionName = it.title
             val latitude = String.format("%.4f", it.position.latitude).toDouble()
@@ -110,17 +118,15 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
                 lastDestinationPoint.remove(currentPositionName)
                 lastDestinationPoint[currentPositionName] = LatLng(latitude, longitude)
             }
-
             true
         }
 
         locationInit()
         addLocationListener()
         locateButton()
-        searchMap()
         addGeofences(pointListMap)
         makeCheckPointButton()
-
+        searchMap()
     }
 
     override fun onMapLongClick(point: LatLng) {
@@ -170,14 +176,14 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     override fun onDestroy() {
-//        geofencingClient?.removeGeofences(geofencePendingIntent)?.run {
-//            addOnSuccessListener {
-//                Toast.makeText(this@CoronaMapActivity, "remove geofence Success", Toast.LENGTH_SHORT).show()
-//            }
-//            addOnFailureListener {
-//                Toast.makeText(this@CoronaMapActivity, "remove geofence Fail", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        geofencingClient?.removeGeofences(geofencePendingIntent)?.run {
+            addOnSuccessListener {
+                Toast.makeText(this@CoronaMapActivity, "remove geofence Success", Toast.LENGTH_SHORT).show()
+            }
+            addOnFailureListener {
+                Toast.makeText(this@CoronaMapActivity, "remove geofence Fail", Toast.LENGTH_SHORT).show()
+            }
+        }
         super.onDestroy()
     }
 
@@ -293,31 +299,32 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         locationCallback = MyLocationCallBack()
         locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 10000
+        locationRequest.interval = 100
         locationRequest.numUpdates = 1
         locationRequest.fastestInterval = 5000
     }
 
     private fun locateButton() {
         var fab = binding.locateFab
-        fab.setOnClickListener { addLocationListener() }
+        fab.setOnClickListener {
+            addLocationListener()
+        }
     }
 
     inner class MyLocationCallBack : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
+            markerMap["Device Location"]?.remove()
             super.onLocationResult(locationResult)
             val personMarker = resources.getDrawable(R.drawable.person_button, null)
             val location = locationResult?.lastLocation
             location?.run {
-
                 val latLng = LatLng(latitude, longitude)
                 // Move camera to user location
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                 // Add marker
                 marker = map.addMarker(MarkerOptions().position(latLng).title("Your Location"))
                 marker.setIcon(BitmapDescriptorFactory.fromBitmap(personMarker.toBitmap(personMarker.intrinsicWidth, personMarker.intrinsicHeight, null)))
-                markerMap.put("Your Location", marker )
-                markerMap.remove("Your Location")
+                markerMap.put("Device Location", marker)
             }
         }
     }
@@ -376,7 +383,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             val pointList = pointListMap.values
             val lastPointList = lastDestinationPoint.values
             if (pointList.contains(lastLocationLatLng) && lastPointList.contains(lastLocationLatLng)) {
-                Toast.makeText(this, "This place is already mark as check point", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "This place is already marked as check point", Toast.LENGTH_SHORT).show()
             } else {
                 addGeofences(lastDestinationPoint)
                 lastLocationLatLng?.let { it1 -> pointListMap.put(currentPositionName, it1) }
@@ -385,8 +392,37 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         }
     }
 
-    private fun insertCheckPoint () {
-        //Get data from ViewModel
-    }
+//    private fun getCheckPointInfo () {
+//        viewModel.checkListData.observe(this, Observer {
+//            it
+//        })
+//    }
+//
+//    private fun getCheckInListInfo (checkPoint: String){
+//        viewModel.getCheckInInfoData(checkPoint).observe(this, Observer {
+//            val checkInInfoList = it.checkInInfo
+//        })
+//    }
+//
+//    private fun getCheckOutListInfo (checkPoint: String) {
+//        viewModel.getCheckOutInfoData(checkPoint).observe(this, Observer {
+//            val checkOutInfoList = it.checkOuInfo
+//        })
+//    }
+//
+//    private fun insertCheckPointInfo (checkPoint : String) {
+//        // Insert Check Point data to database
+//        viewModel.insertData(checkPointInfo = checkPoint, checkInInfo = null, checkOutInfo = null)
+//    }
+//
+//    private fun insertCheckInListInfo (checkInList : List<String>) {
+//        // Insert Check Point data to database
+//        viewModel.insertData(checkPointInfo = null, checkInInfo = checkInList, checkOutInfo = null)
+//    }
+//
+//    private fun insertCheckOutListInfo (checkOutList : List<String>) {
+//        // Insert Check Point data to database
+//        viewModel.insertData(checkPointInfo = null, checkInInfo = null, checkOutInfo = checkOutList)
+//    }
 
 }

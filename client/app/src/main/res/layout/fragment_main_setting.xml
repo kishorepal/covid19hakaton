@@ -59,7 +59,7 @@
 
             <TextView
                 style="@style/text"
-                android:text="Policy" />
+                android:text="Profile" />
 
             <ImageView style="@style/img_arrow" />
 

@@ -6,13 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hackathon.covid.client.common.Const
 import com.hackathon.covid.client.data_model.ChatListDataModel
+import com.hackathon.covid.client.data_model.CheckListModel
 import com.hackathon.covid.client.data_model.EnvironmentModel
 
-@Database(entities = [ChatListDataModel::class, EnvironmentModel::class], version = 3)
+@Database(entities = [ChatListDataModel::class, EnvironmentModel::class, CheckListModel::class], version = 3, exportSchema = false)
 public abstract class MainChatDatabase : RoomDatabase(){
 
     abstract fun mainChatDao() : MainChatDaoInterface
     abstract fun mainEnvironmentDao() : MainEnvironmentDaoInterface
+    abstract fun checkListDao() : CheckListDataInterface
 
     companion object {
         @Volatile

@@ -157,9 +157,7 @@
 
                             </LinearLayout>
 
-
                         </LinearLayout>
-
 
                     </LinearLayout>
 
@@ -169,8 +167,6 @@
 
         </fragment>
 
-
     </LinearLayout>
-
 
 </LinearLayout>
