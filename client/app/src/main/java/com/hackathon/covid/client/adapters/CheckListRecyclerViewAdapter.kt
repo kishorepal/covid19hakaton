@@ -6,20 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hackathon.covid.client.data_model.CheckListModel
 import com.hackathon.covid.client.databinding.ItemCheckListBinding
 
-class CheckListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CheckListRecyclerViewAdapter : RecyclerView.Adapter<CheckListRecyclerViewAdapter.CheckPointViewHolder>() {
 
     private var checkPoint: List<CheckListModel> = mutableListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckPointViewHolder {
         val binding = ItemCheckListBinding.inflate(LayoutInflater.from(parent.context))
         return CheckPointViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        // todo : can not use -> holder.bind(checkPoint[position])
-//        holder.bind(checkPoint[position])
-//        CheckListViewHolder(ItemCheckListBinding()).bind(checkPoint[position])
-    }
 
     override fun getItemCount() = checkPoint.size
 
@@ -34,6 +29,8 @@ class CheckListRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
             binding.itemText.text = item.checkPointInfo
         }
     }
+
+    override fun onBindViewHolder(holder: CheckPointViewHolder, position: Int) = holder.bind(checkPoint[position])
 
 }
 
