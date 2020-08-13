@@ -41,15 +41,18 @@ class MainEnvironmentRepository(val mainEnvironmentDaoInterface: MainEnvironment
                 val itemList : List<HashMap<String,String>> = snapshot.value as List<HashMap<String,String>>
                 for (item in itemList) {
                     Log.d(TAG, "[onDataChange] >> item : $item")
-                    insertItem(
-                        EnvironmentModel(
-                            shortDescription = item["short_description"] as String,
-                            timeStamp = item["time_stamp"] as Long,
-                            roomTemp = item["room_temp"] as Long,
-                            humidity = item["humidity"] as Long,
-                            riskFactor = item["risk_factor"] as String,
-                            infectedContacts = item["infected_contact"] as Long
-                    ))
+                    if (!item.isNullOrEmpty()) {
+                        insertItem(
+                            EnvironmentModel(
+                                shortDescription = item["short_description"] as String,
+                                timeStamp = item["time_stamp"] as Long,
+                                roomTemp = item["room_temp"] as Long,
+                                humidity = item["humidity"] as Long,
+                                riskFactor = item["risk_factor"] as String,
+                                infectedContacts = item["infected_contact"] as Long
+                            )
+                        )
+                    }
                 }
 
 

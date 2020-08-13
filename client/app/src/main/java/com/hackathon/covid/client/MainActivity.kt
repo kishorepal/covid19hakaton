@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity(){
     override fun onStart() {
         super.onStart()
         publish()
-        subscribe()
     }
 
     override fun onStop() {
@@ -156,10 +155,6 @@ class MainActivity : AppCompatActivity(){
         } else {
             Message("Hello World".toByteArray())
         }
-    }
-
-    private fun subscribe() {
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
