@@ -15,7 +15,6 @@ class CheckListRecyclerViewAdapter : RecyclerView.Adapter<CheckListRecyclerViewA
         return CheckPointViewHolder(binding)
     }
 
-
     override fun getItemCount() = checkPoint.size
 
     fun updateList(list: List<CheckListModel>) {
@@ -26,7 +25,9 @@ class CheckListRecyclerViewAdapter : RecyclerView.Adapter<CheckListRecyclerViewA
     inner class CheckPointViewHolder(private val binding: ItemCheckListBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: CheckListModel) {
-            binding.itemText.text = item.checkPointInfo
+            val checkPointName = item.checkPointName
+            val checkPointLatLng = item.checkPointLatLng
+            binding.itemText.text = "$checkPointName -> $checkPointLatLng"
         }
     }
 

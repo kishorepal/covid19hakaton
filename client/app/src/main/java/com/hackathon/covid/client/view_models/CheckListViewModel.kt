@@ -3,6 +3,7 @@ package com.hackathon.covid.client.view_models
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 import com.hackathon.covid.client.data_model.CheckListModel
 
 class CheckListViewModel(context: Context) : ViewModel() {
@@ -16,10 +17,11 @@ class CheckListViewModel(context: Context) : ViewModel() {
         checkPointInfoData = repository.getCheckPointInfo()
     }
 
-    fun insertData(checkPointInfo: String?, checkInInfo: String?, checkOutInfo: String?) {
+    fun insertData(checkPointName: String?, checkPointLatLng :String?, checkInInfo: String?, checkOutInfo: String?) {
         repository.insertItem(
                 CheckListModel(
-                        checkPointInfo = checkPointInfo!!,
+                        checkPointName = checkPointName!!,
+                        checkPointLatLng = checkPointLatLng!!,
                         checkInInfo = checkInInfo!!,
                         checkOuInfo = checkOutInfo!!
                 ))

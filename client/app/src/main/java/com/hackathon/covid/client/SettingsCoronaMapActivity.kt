@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
@@ -52,7 +51,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     private var clickedLocationName = String()
     private var currentPositionName = String ()
     private var currentPosition = 0
-
 
     private val geofencingClient: GeofencingClient by lazy {
         LocationServices.getGeofencingClient(this)
@@ -120,7 +118,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             }
             true
         }
-
         locationInit()
         addLocationListener()
         locateButton()
@@ -388,41 +385,17 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
                 addGeofences(lastDestinationPoint)
                 lastLocationLatLng?.let { it1 -> pointListMap.put(currentPositionName, it1) }
                 lastLocationLatLng?.let { it1 -> drawGeofence(currentPositionName, it1) }
+                if (lastLocationLatLng != null) {
+                    insertCheckPointInfo(currentPositionName,lastLocationLatLng.toString())
+                }
             }
         }
     }
 
-//    private fun getCheckPointInfo () {
-//        viewModel.checkListData.observe(this, Observer {
-//            it
-//        })
-//    }
-//
-//    private fun getCheckInListInfo (checkPoint: String){
-//        viewModel.getCheckInInfoData(checkPoint).observe(this, Observer {
-//            val checkInInfoList = it.checkInInfo
-//        })
-//    }
-//
-//    private fun getCheckOutListInfo (checkPoint: String) {
-//        viewModel.getCheckOutInfoData(checkPoint).observe(this, Observer {
-//            val checkOutInfoList = it.checkOuInfo
-//        })
-//    }
-//
-//    private fun insertCheckPointInfo (checkPoint : String) {
-//        // Insert Check Point data to database
-//        viewModel.insertData(checkPointInfo = checkPoint, checkInInfo = null, checkOutInfo = null)
-//    }
-//
-//    private fun insertCheckInListInfo (checkInList : List<String>) {
-//        // Insert Check Point data to database
-//        viewModel.insertData(checkPointInfo = null, checkInInfo = checkInList, checkOutInfo = null)
-//    }
-//
-//    private fun insertCheckOutListInfo (checkOutList : List<String>) {
-//        // Insert Check Point data to database
-//        viewModel.insertData(checkPointInfo = null, checkInInfo = null, checkOutInfo = checkOutList)
-//    }
+    // Insert Check Point data to database
+    private fun insertCheckPointInfo (checkPointName : String, checkPointLatLng: String) {
+        viewModel.insertData(checkPointName = checkPointName, checkPointLatLng = checkPointLatLng, checkInInfo = "", checkOutInfo = "")
+    }
+
 
 }
