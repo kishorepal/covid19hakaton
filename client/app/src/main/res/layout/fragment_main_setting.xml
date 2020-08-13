@@ -7,8 +7,13 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
     <LinearLayout style="@style/wrap_layout">
+
         <LinearLayout style="@style/layout"
             android:id="@+id/opt_corona_Map">
 
@@ -23,7 +28,8 @@
 
         <View style="@style/bg_line" />
 
-        <LinearLayout style="@style/layout">
+        <LinearLayout style="@style/layout"
+            android:id="@+id/opt_check_point">
 
             <TextView
                 android:id="@+id/set_check_point"
@@ -36,11 +42,12 @@
 
         <View style="@style/bg_line" />
 
-        <LinearLayout style="@style/layout">
+        <LinearLayout style="@style/layout"
+            android:id="@+id/opt_check_list">
 
             <TextView
                 style="@style/text"
-                android:text="Policy" />
+                android:text="Set Check List" />
 
             <ImageView style="@style/img_arrow" />
 
@@ -52,7 +59,7 @@
 
             <TextView
                 style="@style/text"
-                android:text="Policy" />
+                android:text="Profile" />
 
             <ImageView style="@style/img_arrow" />
 
@@ -72,5 +79,6 @@
 
     </LinearLayout>
 
+</LinearLayout>
 
 </FrameLayout>

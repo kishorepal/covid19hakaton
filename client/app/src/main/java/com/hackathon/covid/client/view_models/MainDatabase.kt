@@ -10,12 +10,13 @@ import com.hackathon.covid.client.common.DataTypeConverter
 import com.hackathon.covid.client.data_model.ChatListDataModel
 import com.hackathon.covid.client.data_model.EnvironmentModel
 
-@Database(entities = [ChatListDataModel::class, EnvironmentModel::class], version = 3)
+@Database(entities = [ChatListDataModel::class, EnvironmentModel::class, CheckListModel::class], version = 3)
 @TypeConverters(DataTypeConverter::class)
 public abstract class MainDatabase : RoomDatabase(){
 
     abstract fun mainChatDao() : MainChatDaoInterface
     abstract fun mainEnvironmentDao() : MainEnvironmentDaoInterface
+    abstract fun checkListDao() : CheckListDataInterface
 
     companion object {
         @Volatile
@@ -29,9 +30,9 @@ public abstract class MainDatabase : RoomDatabase(){
 
             synchronized(this) {
                 val mInstance = Room.databaseBuilder(
-                    context.applicationContext,
-                    MainDatabase::class.java,
-                    Const.dbName // DB name ref : https://developer.android.com/reference/androidx/room/Room#databaseBuilder(android.content.Context,%20java.lang.Class%3CT%3E,%20java.lang.String)
+                        context.applicationContext,
+                        MainDatabase::class.java,
+                        Const.dbName // DB name ref : https://developer.android.com/reference/androidx/room/Room#databaseBuilder(android.content.Context,%20java.lang.Class%3CT%3E,%20java.lang.String)
                 ).build()
 
                 instance = mInstance

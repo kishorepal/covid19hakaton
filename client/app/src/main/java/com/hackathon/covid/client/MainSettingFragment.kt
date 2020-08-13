@@ -1,5 +1,6 @@
 package com.hackathon.covid.client
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,14 +40,42 @@ class MainSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_setting, container, false)
+        settingBinding = FragmentMainSettingBinding.inflate(inflater, container, false)
+        coronaMapButton()
+        checkPointButton()
+        checkListButton()
+        return binding.root
     }
+
 
     private fun coronaMapButton() {
         binding.optCoronaMap.setOnClickListener {
             // move to corona map page
+            activity?.let{
+                val intent = Intent (it, CoronaMapActivity::class.java)
+                it.startActivity(intent)
+            }
         }
+    }
 
+    private fun checkPointButton() {
+        binding.optCheckPoint.setOnClickListener {
+            // move to corona map page
+            activity?.let{
+                val intent = Intent (it, SettingsCheckPointActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
+    }
+
+    private fun checkListButton() {
+        binding.optCheckList.setOnClickListener {
+            // move to corona map page
+            activity?.let{
+                val intent = Intent (it, SettingsCheckListActivity::class.java)
+                it.startActivity(intent)
+            }
+        }
     }
 
     companion object {

@@ -13,6 +13,9 @@ class ViewModelFactory (private val context : Context) :ViewModelProvider.Factor
         else if ( modelClass.isAssignableFrom(MainChatViewModel::class.java)) {
             return MainChatViewModel(context) as T
         }
+        else if (modelClass.isAssignableFrom(CheckListViewModel::class.java)) {
+            return CheckListViewModel(context) as T
+        }
         // todo : settings and health needs to be done\
 
         throw IllegalArgumentException("Unknown ViewModel Class")

@@ -3,6 +3,8 @@
     package="com.hackathon.covid.client">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SettingsCheckListActivity"></activity>
+        <activity
+            android:name=".SettingsCheckPointActivity"
+            android:label="@string/title_activity_check_point"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBWxvTIaHk9WbnMxo_cjxNylWrh-D5WJHA" />
+
+        <activity android:name=".CoronaMapActivity" />
+
+        <receiver android:name=".services.GeofenceBroadcastReceiver" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +34,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.MyFirebaseMessagingService"
+        <service
+            android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
