@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.hackathon.covid.client.common.Const
 import com.hackathon.covid.client.common.DataTypeConverter
 import com.hackathon.covid.client.data_model.ChatListDataModel
+import com.hackathon.covid.client.data_model.CheckListModel
 import com.hackathon.covid.client.data_model.EnvironmentModel
 
 @Database(entities = [ChatListDataModel::class, EnvironmentModel::class, CheckListModel::class], version = 3)

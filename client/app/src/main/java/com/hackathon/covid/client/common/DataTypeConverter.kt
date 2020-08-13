@@ -30,13 +30,13 @@ class DataTypeConverter {
         return option
     }
 
-    @TypeConverter
-    fun stringsToOptions(optionsText : String) : List<Option> {
-        val stringArray = optionsText.split(",")
-        var optionsArray : List<Option> = mutableListOf()
-        for (item in stringArray) {
-            optionsArray.
-        }
-    }
+//    @TypeConverter
+//    fun stringsToOptions(optionsText : String) : List<Option> {
+//        val stringArray = optionsText.split(",")
+//        var optionsArray : List<Option> = mutableListOf()
+//        for (item in stringArray) {
+//
+//        }
+//    }
 
 }

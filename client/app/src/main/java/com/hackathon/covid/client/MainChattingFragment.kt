@@ -40,7 +40,7 @@ class MainChattingFragment : Fragment() {
 
     private fun initView() {
 
-        listAdapter = ChatRecyclerViewAdapter()
+        listAdapter = ChatRecyclerViewAdapter(context!!)
         binding.rvChat.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
             adapter = listAdapter

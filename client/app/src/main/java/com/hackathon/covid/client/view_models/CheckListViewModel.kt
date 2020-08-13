@@ -12,7 +12,7 @@ class CheckListViewModel(context: Context) : ViewModel() {
     var checkPointInfoData: LiveData<List<CheckListModel>>
 
     init {
-        val checkListDaoInterface = MainChatDatabase.getDatabase(context).checkListDao()
+        val checkListDaoInterface = MainDatabase.getDatabase(context).checkListDao()
         repository = CheckListDataRepository(checkListDaoInterface)
         checkPointInfoData = repository.getCheckPointInfo()
     }

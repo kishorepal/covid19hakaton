@@ -1,7 +1,10 @@
 package com.hackathon.covid.client.adapters
 
+import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hackathon.covid.client.data_model.ChatListDataModel
 import com.hackathon.covid.client.data_model.ChatbotQueryResponse
@@ -9,7 +12,7 @@ import com.hackathon.covid.client.databinding.ChattingFragmentBinding
 import com.hackathon.covid.client.databinding.ItemChatIncomingBubbleBinding
 import com.hackathon.covid.client.databinding.ItemChatOutgoingBubbleBinding
 
-class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatRecyclerViewAdapter(context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
 
@@ -73,6 +76,9 @@ class ChatRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     inner class LeftViewHolder(private val binding : ItemChatIncomingBubbleBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ChatListDataModel) {
             binding.tvText.text = item.botResponse
+            binding.rvOptions.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
         }
     }
 

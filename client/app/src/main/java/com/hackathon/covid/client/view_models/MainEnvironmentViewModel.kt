@@ -21,6 +21,8 @@ class MainEnvironmentViewModel(context: Context) : ViewModel() {
         environmentData = repository.environmentData
         environmentAllData = repository.environmentAllData
 
+
+
     }
 
 

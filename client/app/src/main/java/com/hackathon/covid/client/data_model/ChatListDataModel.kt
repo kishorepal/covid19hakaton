@@ -15,9 +15,9 @@ data class ChatListDataModel(
 
     @ColumnInfo(name = "isBot") val isBot : Boolean,
     @ColumnInfo(name = "message") val message : String,
-//    @ColumnInfo(name = "botResponse") val botResponse : String
-    @ColumnInfo(name = "botResponse") val botResponse: BotResponse,
-    @ColumnInfo(name = "optionis") val options : List<Option>
+    @ColumnInfo(name = "botResponse") val botResponse : String
+//    @ColumnInfo(name = "botResponse") val botResponse: BotResponse,
+//    @ColumnInfo(name = "options") val options : List<Option>
 ) {
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name="id") var id : Int = 0
 }
