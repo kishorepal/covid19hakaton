@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainRepository(private val mainChatDao : MainChatDaoInterface) {
+class MainChatRepository(private val mainChatDao : MainChatDaoInterface) {
 
     private val TAG = javaClass.simpleName
 
