@@ -56,7 +56,32 @@ class MainEnvironmentFragment : Fragment() {
         // Inflate the layout for this fragment
         environmentBinding = FragmentMainEnvironmentBinding.inflate(inflater, container, false)
         addObservers()
+        initView()
         return binding.root;
+    }
+
+    private fun initView() {
+        binding.btnRefresh.setOnClickListener {
+            // todo : refresh token
+            if (activity is MainActivity) {
+                (activity as MainActivity).refresh()
+                Log.d(TAG, "[initView] >> refresh clicked")
+            }
+            else {
+                Log.e(TAG, "[initView] >> refresh failed")
+            }
+        }
+        binding.btnEnvironmentEnable.setOnClickListener {
+            // todo : publish
+            if (activity is MainActivity) {
+                (activity as MainActivity).publish()
+                Log.d(TAG , "[initView] >> enable clicked")
+            }
+            else {
+                Log.e(TAG, "[initView] >> enable failed")
+            }
+        }
+
     }
 
     private fun addObservers() {

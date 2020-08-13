@@ -6,6 +6,12 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,14 +19,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="@string/API_KEY_FOR_MESSAGE_API" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/API_KEY_FOR_MESSAGE_API" />
+
         <activity android:name=".SettingsCheckListActivity"></activity>
         <activity
             android:name=".SettingsCheckPointActivity"
             android:label="@string/title_activity_check_point"
             android:theme="@style/AppTheme.NoActionBar" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBWxvTIaHk9WbnMxo_cjxNylWrh-D5WJHA" />
+        <!--        <meta-data-->
+        <!--            android:name="com.google.android.geo.API_KEY"-->
+        <!--            android:value="AIzaSyBWxvTIaHk9WbnMxo_cjxNylWrh-D5WJHA" />-->
 
         <activity android:name=".CoronaMapActivity" />
 

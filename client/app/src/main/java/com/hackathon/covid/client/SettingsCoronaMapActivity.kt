@@ -31,8 +31,6 @@ import com.hackathon.covid.client.view_models.CheckListViewModel
 import com.hackathon.covid.client.view_models.ViewModelFactory
 
 
-private const val MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION = 100
-private const val MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION = 101
 
 class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapLongClickListener {
 
@@ -76,7 +74,6 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
                 .findFragmentById(R.id.fm_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        checkPermission()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -148,26 +145,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         return true
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION,
-            MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION -> {
-                grantResults.apply {
-                    if (this.isNotEmpty()) {
-                        this.forEach {
-                            if (it != PackageManager.PERMISSION_GRANTED) {
-                                checkPermission()
-                                return
-                            }
-                        }
-                    } else {
-                        checkPermission()
-                    }
-                }
-            }
-        }
-    }
+
 
     override fun onMapClick(p0: LatLng) {
     }
@@ -198,33 +176,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         circleMap[name] = circle
     }
 
-    // Check permission for access device location
-    private fun checkPermission() {
-        val permissionAccessFineLocationApproved = ActivityCompat
-                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED
 
-        if (permissionAccessFineLocationApproved) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val backgroundLocationPermissionApproved = ActivityCompat
-                        .checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED
-
-                if (!backgroundLocationPermissionApproved) {
-                    ActivityCompat.requestPermissions(
-                            this,
-                            arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                            MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION
-                    )
-                }
-            }
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION
-            )
-        }
-    }
 
     // Get saved check point by viewModel(get user data from database)
     private fun checkPointList(): HashMap<String, LatLng> {
@@ -296,6 +248,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         locationCallback = MyLocationCallBack()
         locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//        locationRequest.priority = LocationRequest.
         locationRequest.interval = 100
         locationRequest.numUpdates = 1
         locationRequest.fastestInterval = 5000

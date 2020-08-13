@@ -1,17 +1,31 @@
 package com.hackathon.covid.client
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResultCallback
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.messages.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hackathon.covid.client.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
+
+
+
+    private val MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION = 100
+    private val MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION = 101
+
+    private lateinit var mMessage : Message
 
     private val TAG = javaClass.simpleName
 
@@ -35,7 +49,11 @@ class MainActivity : AppCompatActivity() {
             initView()
             switchFragment(mainEnvironmentFragment)
             Log.d(TAG, "[onCreate] >> activity initially created")
+
         }
+
+        checkPermission()
+        mMessage = Message("Hello World".toByteArray())
     }
 
 
@@ -44,6 +62,34 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.app_name)
         binding.bottomNavView.apply {
             setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        }
+    }
+
+    // Check permission for access device location
+    private fun checkPermission() {
+        val permissionAccessFineLocationApproved = ActivityCompat
+            .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED
+
+        if (permissionAccessFineLocationApproved) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val backgroundLocationPermissionApproved = ActivityCompat
+                    .checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED
+
+                if (!backgroundLocationPermissionApproved) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                        MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION
+                    )
+                }
+            }
+        } else {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION
+            )
         }
     }
 
@@ -83,6 +129,72 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        publish()
+        subscribe()
+    }
+
+    override fun onStop() {
+        Nearby.getMessagesClient(this).unpublish(mMessage)
+        Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
+        super.onStop()
+    }
+
+
+    fun publish() {
+        Nearby.getMessagesClient(this).publish(mMessage)
+        Nearby.getMessagesClient(this).subscribe(mMessageListener)
+    }
+
+    fun refresh() {
+        mMessage = if (String(mMessage.content) == "Hello World") {
+            Message("Hello".toByteArray())
+        } else {
+            Message("Hello World".toByteArray())
+        }
+    }
+
+    private fun subscribe() {
+
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQ_ACCESS_FINE_LOCATION,
+            MY_PERMISSIONS_REQ_ACCESS_BACKGROUND_LOCATION -> {
+                grantResults.apply {
+                    if (this.isNotEmpty()) {
+                        this.forEach {
+                            if (it != PackageManager.PERMISSION_GRANTED) {
+                                checkPermission()
+                                return
+                            }
+                        }
+                    } else {
+                        checkPermission()
+                    }
+                }
+            }
+        }
+    }
+
+
+    private val mMessageListener = object : MessageListener() {
+        override fun onLost(p0: Message?) {
+            super.onLost(p0)
+            Log.d(TAG, "[onLost] >> ${String(p0!!.content)}")
+        }
+
+        override fun onFound(p0: Message?) {
+            super.onFound(p0)
+            Log.d(TAG, "[onFound] >> ${String(p0!!.content)}")
+            Toast.makeText(this@MainActivity, "Message Received!! Token : ${String(p0.content)}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

@@ -7,4 +7,12 @@
     <color name="text_clo">#333</color>
     <color name="white">#fff</color>
     <color name="blue">#419DE4</color>
-</resources>
+
+
+    <color name="chatfragment_background">#9bbbd4</color>
+    <color name="chatfragment_bubble_incoming">#ffffff</color>
+    <color name="chatfragment_incoming_textcolor">#556677</color>
+    <color name="chatfragment_bubble_outgoing">#fef01b</color>
+    <color name="chatfragment_outgoing_textcolor">#333333</color>
+
+    </resources>
