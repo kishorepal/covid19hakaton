@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "219924994908",
+    "project_number": "xxxx",
     "firebase_url": "https://covid19-client.firebaseio.com",
-    "project_id": "covid19-client",
-    "storage_bucket": "covid19-client.appspot.com"
+    "project_id": "xxx",
+    "storage_bucket": "xxxxx"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:219924994908:android:56dc4f0cc4922919ee3f99",
+        "mobilesdk_app_id": "xxxxxxx",
         "android_client_info": {
           "package_name": "com.hackathon.covid.client"
         }
       },
       "oauth_client": [
         {
-          "client_id": "219924994908-v43an3gobb9djf1fv6qm058mp8ikcom0.apps.googleusercontent.com",
+          "client_id": "xxxxx",
           "client_type": 3
         }
       ],
@@ -28,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "219924994908-v43an3gobb9djf1fv6qm058mp8ikcom0.apps.googleusercontent.com",
+              "client_id": "xxxxxxm",
               "client_type": 3
             }
           ]
