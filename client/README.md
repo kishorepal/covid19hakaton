@@ -28,3 +28,6 @@ By setting Geofense, the user is notified what to do when going outside, or insi
 * Nearby Message API
 * Retrofit
 * RxJava/RxAndroid
+
+## How To run this application
+* the appliation should be installed through your Android Studio with the HCL Japan team account. The API key is bound to this account so if you want to run the application with your account, then you might need to replace with your API KEY
