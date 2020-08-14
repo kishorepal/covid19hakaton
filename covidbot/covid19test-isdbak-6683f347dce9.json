@@ -1,12 +1,12 @@
 {
   "type": "service_account",
-  "project_id": "covid19test-isdbak",
-  "private_key_id": "6683f347dce940678719d965a6a317eddb754b4e",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDybiwd1tVmo867\nKkgm9LrRvtUA6QYLsJY45lSWxOFPhaqDyDL35nSu/6KLrGaXrCiYkB+WLITSlJdk\nkSmIV6lDaiiUC0JIy4UmC+F76FCnTwhzXUtxK8jv9JR7NJP45jBl0zepG739ELVA\nmW1e7y9XPAKo3dzw18UJpPI2ahrKV2zMF35zZwlhGC1ETDAEowElH3y6zAKnmp7b\nhtohGl9dqF8ad1YP7CyIjCIIQBh+hZ2cfYcRagvrpju0ti8vfqBxVKEEMFjNa3Eq\n+DCqbSj5Nk3stBEXyAzhIHlhQk/P6rOr2SCeZ92VCJfB8yL11HP49m73jCMghii1\nrkH03aqbAgMBAAECggEAKGIDdZ7/4j6UJRJN0uC+WUpYB0mfE7Br0vjvNe7Vd0kq\nlmlxWrZn+8Sif3C4OuNXHylsJuMDPGQQdJSdCKn4Nz4bmfmRe43HVVyc8rvH6kQc\nghcUMOWxwuLeHvMrA5wt4LBWm76pdFplpD1KfjS1O+tHqCMjoXeCdMZQqzwb0ADS\nzSbxCssh3R+tYd0sT3ODo6FTioh3WZliSUN+l+Bn8o9A14GXRRT0Pwbjwo6lapkd\n+S64uYzSmfzlo+3z6v/mJOrKbQrRt6Fk4fQmhX3CHeyml+aGhiFXYKmfclBhsB5F\nhnQpXEnKYkogg7plmrmsPPl6jNx73HxkZiVfGzHU5QKBgQD8MzR+06zxcZxVTMll\nux8YVlC4fOUm30eGVdbl1+wMqhTZ4L4xn67mMhPvQ2ODeYKG01uRef68UciEhPbj\n4MRCHS0nI4cd8cJZT/ZYbNTlGMItjCdkPNIo29e3pXR4t9T5WeVOmYhwf2v3KRLL\n6WzjENl9y9suUgvzPepui/N/ZQKBgQD2FUiMV44t/PZwsSTWZWzHGlVMm2OYib0i\ntTHD5FaKQWCz3osUfAWKv+/NZlI4Qt1YMkcqO/yGi4PDHmtdv4jjs33moohDyy8s\nG7B9RE6BJLvbE8R276eHQpQiYmWl1ln7yo0wGglpyq5RMOOngavveSh4mSq4Hlyc\nHJG8DFLh/wKBgADN5P/2itmmRBpdiVLiuuGn/M/pzg1GrwK1qV7IRn9v12sudUzR\nNoyTYk7kByA3NfxaFjOrkO1m0V3i0qq9X8LaNvel/FtTFwyT3bRAfJlSb+QXS1Td\ngMoSkWiLhYiRBYPaDoomoTHCpkR+hAnUb711o0vsZ4GJT3JyIxpBJgClAoGAbq27\n54Mpq31uydiinNsZRaOOYdoxvVWV/5pHO7fjRGOLPtsE6r2tMG6LSHKQ4EUSkKxs\nXY6FUW5GYOe5mnye8Oq14ZmQeA1WthvuESk7tdHzu+D0KBo52xgS0DQ5S5FQ/3Jm\ndg//09kY9eNrQNeNoTN5BGS/Vfgx5vTihxVz4bkCgYEAgG07LGPs0585j6kSy2Q6\n83MqobJXcSUBzAPjHxsG6fEgV0FSsu7JHrnMEEg2B6yvuhY//aLPUCTaai22x5Eu\nK2TwagOMspGSYQzkcTeAwQlQVUAk3K1pza5BBEzntehO1cMBRzDOKa9ZrkVa5YWh\nR+tic0PcV7On5WXWZ7cvqD4=\n-----END PRIVATE KEY-----\n",
-  "client_email": "dialogflow-tedcqc@covid19test-isdbak.iam.gserviceaccount.com",
-  "client_id": "103451192347654390902",
+  "project_id": "project_id",
+  "private_key_id": "{private_key_id}",
+  "private_key": "{private_key}",
+  "client_email": "{client_email}",
+  "client_id": "{client_id}",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-tedcqc%40covid19test-isdbak.iam.gserviceaccount.com"
+  "client_x509_cert_url": "{client_x509_cert_url}"
 }
