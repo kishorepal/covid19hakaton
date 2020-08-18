@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-921766082/CovidClient.iml" filepath="$PROJECT_DIR$/.idea/modules/-921766082/CovidClient.iml" group="CovidClient" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CovidClient-app.iml" filepath="$PROJECT_DIR$/.idea/modules/CovidClient-app.iml" group="CovidClient/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/app.iml" filepath="$PROJECT_DIR$/.idea/app.iml" group="CovidClient/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1700967890/client-CovidClient.iml" filepath="$PROJECT_DIR$/.idea/modules/-1700967890/client-CovidClient.iml" group="CovidClient" />
     </modules>
   </component>
 </project>
