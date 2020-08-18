@@ -81,7 +81,19 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
         map = googleMap
 
         for (item in pointListMap) {
-            drawGeofence(item.key, item.value)
+            when (item.key) {
+                "High Risk Zone 1" -> {
+                    drawGeofence(item.key, item.value, "danger")
+                }
+                "High Risk Zone 2" -> {
+                    drawGeofence(item.key, item.value, "danger")
+                }
+
+                "High Risk Zone 3" -> {
+                    drawGeofence(item.key, item.value, "danger")
+                }
+            }
+            drawGeofence(item.key, item.value, "safe")
         }
 
         map.setOnMapLongClickListener {
@@ -163,12 +175,22 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     }
 
     // Draw Geofence range
-    private fun drawGeofence(name: String, latLng: LatLng) {
+    private fun drawGeofence(name: String, latLng: LatLng, type: String) {
         val circleOptions = CircleOptions()
-                .center(latLng)
-                .strokeColor(Color.argb(50, 70, 70, 70))
-                .fillColor(Color.argb(100, 150, 150, 150))
-                .radius(200.0)
+        if (type == "safe") {
+            circleOptions
+                    .center(latLng)
+                    .strokeColor(Color.argb(50, 70, 70, 70))
+                    .fillColor(Color.argb(100, 150, 150, 150))
+                    .radius(200.0)
+        } else if (type == "danger") {
+            circleOptions
+                    .center(latLng)
+                    .strokeColor(Color.argb(50, 250, 70, 70))
+                    .fillColor(Color.argb(100, 200, 150, 150))
+                    .radius(200.0)
+        }
+
 
         circle = map.addCircle(circleOptions)
         marker = map.addMarker(MarkerOptions().position(latLng).title(name))
@@ -181,7 +203,8 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
     // Get saved check point by viewModel(get user data from database)
     private fun checkPointList(): HashMap<String, LatLng> {
         // Dummy data
-        return hashMapOf(("Home" to LatLng(35.7839, 139.6818)), ("Office" to LatLng(35.7851, 139.6890)))
+        return hashMapOf(("Home" to LatLng(35.7839, 139.6818)), ("High Risk Zone 1" to LatLng(35.7851, 139.6890))
+        , ("High Risk Zone 2" to LatLng(35.7891, 139.6880)), ("High Risk Zone 3" to LatLng(35.7881, 139.6800)))
     }
 
     private fun getGeofenceList(list: HashMap<String, LatLng>): MutableList<Geofence> {
@@ -337,7 +360,7 @@ class CoronaMapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnM
             } else {
                 addGeofences(lastDestinationPoint)
                 lastLocationLatLng?.let { it1 -> pointListMap.put(currentPositionName, it1) }
-                lastLocationLatLng?.let { it1 -> drawGeofence(currentPositionName, it1) }
+                lastLocationLatLng?.let { it1 -> drawGeofence(currentPositionName, it1, "safe") }
                 if (lastLocationLatLng != null) {
                     insertCheckPointInfo(currentPositionName,lastLocationLatLng.toString())
                 }
